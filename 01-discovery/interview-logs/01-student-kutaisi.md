@@ -1,4 +1,4 @@
-# Interview 01 · first-year student, side projects · 
+# Interview 01 · first-year student, side projects · Kutaisi
 
 **Week:** 2 · **Asker:** TTC · **Logger:** IG · **Consent:** yes; notes only
 **Real or practice:** real 

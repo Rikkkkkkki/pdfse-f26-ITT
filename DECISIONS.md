@@ -1,1 +1,1 @@
-**Difficulty deciding where to start learning a new software project**
+Wk2 · Problem pick: Difficulty deciding where to start learning a new software project · runner-up: Duplicate work in a shared team project · evidence: 00-foundation/problem-pool.md (#7), 00-foundation/four-filters-scorecard.md · owner: IG

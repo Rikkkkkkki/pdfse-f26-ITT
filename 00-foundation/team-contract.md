@@ -35,5 +35,6 @@ Small stuff: any two members. Direction: evidence first, then majority; the diss
 Committing this file is signing it.
 
 | Name | GitHub | Date |
-|Tatia Tkeshelashvili|@Rikkkkkkki|6 October|
+| Tatia Tkeshelashvili | @Rikkkkkkki | 6 October |
+| Tornike Tchkoidze | @Tornik-tck | 18 October |
 | | | |

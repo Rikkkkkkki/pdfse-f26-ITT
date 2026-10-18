@@ -1,12 +1,13 @@
-# Interview B · self-taught learner, YouTube · (Example B)
+# Interview 03 · self-taught learner, YouTube · Kutaisi
 
 **Week:** 2 · **Asker:** IG · **Logger:** TT · **Consent:** yes; notes only
 **Real or practice:** real
 
 **Context:** Learning Python alone for six months, works on a Telegram bot.
-**Our prediction:** (same as above)
+**Our prediction:** We are wrong if fewer than 2 of 3 people describe losing days to deciding what to learn before they start building.
 
 **Quotes**
+
 - "I know what to learn, that's not the issue. I get an error and I can't tell what it means."
 - "Last Tuesday I lost three hours on one line, then found out it was a missing bracket."
 - ★ "I don't have anyone to ask. My friends don't code."

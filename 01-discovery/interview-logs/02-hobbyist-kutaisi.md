@@ -1,13 +1,12 @@
-# Interview C · friend of a friend, has an app idea · (Example C)
+# Interview 02 · friend of a friend, hobby app idea · Kutaisi
 
 **Week:** 2 · **Asker:** TT · **Logger:** TTC · **Consent:** yes; recording
 **Real or practice:** real
 
 **Context:** Works in marketing, wants to build a small app as a hobby.
-**Our prediction:** (same as above)
+**Our prediction:** We are wrong if fewer than 2 of 3 people describe losing days to deciding what to learn before they start building.
 
 **Quotes**
-
 - "It's fine, I just do it when I have time."
 - "Yeah, I guess choosing what to learn is hard." (after the asker said "do you ever struggle to pick what to learn?")
 - "I don't know, maybe."

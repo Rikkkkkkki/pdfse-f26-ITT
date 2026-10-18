@@ -1,8 +1,8 @@
 # Interview Script v1
 
-**Problem we are investigating:** Difficulty deciding where to start learning a new software project (pool entry #7). <replace with line 1 of DECISIONS.md once the Four Filters pick is made>
-**Our prediction:** <copy the "We are wrong if" line from problem-hypothesis.md; never say it aloud>
-**Language:** <Georgian / English>. Keep an English version beside the one we use.
+**Problem we are investigating:** Difficulty deciding where to start learning a new software project (line 1 of DECISIONS.md).
+**Our prediction:** We are wrong if fewer than 2 of 3 people describe losing days to deciding what to learn before they start building.
+**Language:** Georgian / English (interviews conducted in Georgian, logged in English).
 
 ## Opening (2 min, word for word)
 "Hi <name>, thanks for making time. I'm <your name>, a student at KIU. We're learning how people spend their time on their own projects and ideas, the good parts and the annoying parts. We're not selling anything and we have nothing to show you, so there are no right or wrong answers. Is it okay if my teammate takes notes? We won't use your name."
