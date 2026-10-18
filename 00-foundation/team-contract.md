@@ -37,4 +37,4 @@ Committing this file is signing it.
 | Name | GitHub | Date |
 | Tatia Tkeshelashvili | @Rikkkkkkki | 6 October |
 | Tornike Tchkoidze | @Tornik-tck | 18 October |
-| | | |
+| Irakli Giguashvili | @Irakligig | 18 October |

@@ -26,4 +26,4 @@
 - [x] The "we are wrong if" line is copied to the top of your script and your log template
 
 ## After interviews (fill in Week 3)
-**Verdict:** [confirmed / weakened / killed] · **Evidence:** [links to logs] · Record the verdict in `DECISIONS.md`.
+**Verdict:** weakened · **Evidence:** `01-discovery/interview-logs/01-student-kutaisi.md`, `01-discovery/interview-logs/05-gamer-kutaisi.md`, `01-discovery/interview-logs/06-bootcamp-tbilisi.md`. While beginners routinely lose weeks before writing code, the root cause is not an inability to find learning resources, but rather fear of committing to the wrong tech stack and substituting resource curation for building. Recorded in `DECISIONS.md` as Line 2.
