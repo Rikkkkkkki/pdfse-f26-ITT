@@ -1,7 +1,7 @@
 # ITT
 
 **Investigating:** Difficulty deciding where to start learning a new software project
-**Team:** Tatia Tkeshelashvili (@Rikkkkkkki) · Tornike Tchkoidze (@Tornik-tck) · Irakli Giguashvili (@Irakligig)
+**Team:** Tatia Tkeshelashvili (@Rikkkkkkki) · Tornike Tchkoidze (@Tornik-chk) · Irakli Giguashvili (@Irakligig)
 
 | Link | Status |
 |---|---|

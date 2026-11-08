@@ -12,13 +12,14 @@ Accountabilities below say who makes sure something happens. They do not say who
 | Name | GitHub | Primary accountability | First outreach target (a real person) |
 |---|---|---|---|
 | Tatia Tkeshelashvili | @Rikkkkkkki | Discovery: interview quality, synthesis | <friend, beginner who wanted to build a first personal project> |
-| Tornike Tchkoidze | @Tornik-tck | Build: repo, code, deployment | Nino, a third-year student, and her team of four in a Software Development lab |
+| Tornike Tchkoidze | @Tornik-chk | Build: repo, code, deployment | Nino, a third-year student, and her team of four in a Software Development lab |
 | Irakli Giguashvili | @Irakligig | Delivery: deadlines, submissions, milestone tags | A developer reviewing pull requests on a C# project |
 
 
 ## How we work
 - **Channel:** Teams Chat
 - **Standup:** Saturday, 17:00
+- **Tracking who did what:** Each story and deliverable is assigned to a single owner in GitHub Issues/Projects, tracked via commit authors and PR reviews, and audited at the weekly standup.
 - **Response window:** messages acknowledged within 4 hours between 12:00 and 16:00.
 - **Silent teammate with a deadline near:** Tatia follows up, after not responding 2 hours, missing member is "rewarded" with extra work.
 - **Demo-ready:** any member can screen-share the current product state in any lab, on 2 minutes notice
@@ -36,5 +37,5 @@ Committing this file is signing it.
 
 | Name | GitHub | Date |
 | Tatia Tkeshelashvili | @Rikkkkkkki | 6 October |
-| Tornike Tchkoidze | @Tornik-tck | 18 October |
+| Tornike Tchkoidze | @Tornik-chk | 18 October |
 | Irakli Giguashvili | @Irakligig | 18 October |

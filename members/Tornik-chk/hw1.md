@@ -1,6 +1,6 @@
-# Homework 1 · Tornike Tchkoidze (@Tornik-tck) · Team ITT
+# Homework 1 · Tornike Tchkoidze (@Tornik-chk) · Team ITT
 
-**Save this file as:** `members/Tornik-tck/hw1.md`
+**Save this file as:** `members/Tornik-chk/hw1.md`
 
 ## 1. My interview log
 
