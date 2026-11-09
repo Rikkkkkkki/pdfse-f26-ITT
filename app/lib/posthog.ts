@@ -3,7 +3,8 @@ import posthog from "posthog-js";
 export const initPostHog = () => {
   if (typeof window !== "undefined") {
     const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
-    const host = process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://eu.i.posthog.com";
+    const host =
+      process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://eu.i.posthog.com";
     if (key && !posthog.__loaded) {
       posthog.init(key, {
         api_host: host,
@@ -14,7 +15,10 @@ export const initPostHog = () => {
   }
 };
 
-export const captureEvent = (eventName: string, properties?: Record<string, unknown>) => {
+export const captureEvent = (
+  eventName: string,
+  properties?: Record<string, unknown>,
+) => {
   if (typeof window !== "undefined") {
     initPostHog();
     try {
