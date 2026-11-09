@@ -1,11 +1,106 @@
 @import "tailwindcss";
 
 :root {
-  --background: #020617;
-  --foreground: #f8fafc;
+  --bg: #05070a;
+  --panel: #0b0f14;
+  --panel-2: #10161e;
+  --ink: #eef2f7;
+  --muted: #9aa3af;
+  --dim: #66707d;
+  --line: rgba(238, 242, 247, 0.08);
+  --line-strong: rgba(238, 242, 247, 0.16);
+  --green: #39d98a;
+  --green-soft: rgba(57, 217, 138, 0.12);
+  --amber: #f5c14a;
+  --amber-soft: rgba(245, 193, 74, 0.14);
+  --danger: #ff6b6b;
+  --danger-soft: rgba(255, 107, 107, 0.12);
+}
+
+html {
+  color-scheme: dark;
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.sl-shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      1200px 500px at 85% -10%,
+      rgba(57, 217, 138, 0.08),
+      transparent 55%
+    ),
+    radial-gradient(
+      900px 420px at -5% 80%,
+      rgba(245, 193, 74, 0.05),
+      transparent 50%
+    ),
+    linear-gradient(180deg, #070a0e 0%, #05070a 40%, #05070a 100%);
+}
+
+.sl-noise {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  opacity: 0.035;
+  z-index: 50;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes sl-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes sl-snap {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes sl-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sl-blink {
+  animation: sl-blink 1.05s step-end infinite;
+}
+
+.sl-snap {
+  animation: sl-snap 380ms cubic-bezier(0.34, 1.45, 0.64, 1);
+}
+
+.sl-rise {
+  animation: sl-rise 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sl-blink,
+  .sl-snap,
+  .sl-rise {
+    animation: none;
+  }
 }

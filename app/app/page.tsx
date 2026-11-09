@@ -2,22 +2,28 @@
 
 import { useState, useEffect, useRef } from "react";
 import type { FormEvent } from "react";
-import { Bricolage_Grotesque, Source_Serif_4 } from "next/font/google";
+import { Syne, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { initPostHog, captureEvent } from "@/lib/posthog";
 import { STACKS, STACK_ORDER, type StackId } from "@/lib/stacks";
 
-const display = Bricolage_Grotesque({
+const display = Syne({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
+  weight: ["600", "700", "800"],
 });
-const body = Source_Serif_4({
+const body = IBM_Plex_Sans({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
-
-const D = { fontFamily: "var(--font-display), system-ui, sans-serif" } as const;
+const mono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+});
 
 const STORAGE_KEY = "stacklock:v2";
 
@@ -39,22 +45,24 @@ function minutesSince(ts: number | null): number | null {
 function Padlock({
   locked,
   className = "",
+  snap = false,
 }: {
   locked: boolean;
   className?: string;
+  snap?: boolean;
 }) {
   return (
     <svg
       viewBox="0 0 24 24"
-      width="24"
-      height="24"
+      width="18"
+      height="18"
       fill="none"
       stroke="currentColor"
       strokeWidth="2.2"
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
-      className={className}
+      className={`${className} ${snap ? "sl-snap" : ""}`}
     >
       <rect
         x="4"
@@ -86,9 +94,11 @@ export default function Home() {
   const [proofError, setProofError] = useState<string | null>(null);
   const [copyState, setCopyState] = useState<CopyState>("idle");
   const [hydrated, setHydrated] = useState(false);
+  const [lockSnap, setLockSnap] = useState(false);
 
   const loadedAt = useRef<number>(Date.now());
   const selectionCount = useRef(0);
+  const buildRef = useRef<HTMLElement | null>(null);
 
   const stack = STACKS[selected];
   const isCommitted = committedAt !== null;
@@ -164,6 +174,11 @@ export default function Home() {
     );
     setCommittedAt(Date.now());
     setHasCommittedBefore(true);
+    setLockSnap(true);
+    window.setTimeout(() => setLockSnap(false), 400);
+    window.setTimeout(() => {
+      buildRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
   };
 
   const handleChangeSelection = () => {
@@ -227,267 +242,342 @@ export default function Home() {
 
   const commandLabel =
     stack.commandKind === "link"
-      ? "Download Godot here"
-      : "Run this in your terminal";
+      ? "download link"
+      : "starter command";
   const copyLabel =
     copyState === "copied"
-      ? "Copied"
+      ? "copied ✓"
       : copyState === "failed"
-        ? "Copy failed. Select the text instead"
-        : stack.commandKind === "link"
-          ? "Copy link"
-          : "Copy command";
+        ? "failed — select text"
+        : "copy";
 
   return (
     <div
-      className={`${display.variable} ${body.variable} min-h-screen bg-[#E9ECEF] text-[#16181D] antialiased`}
-      style={{ fontFamily: "var(--font-body), Georgia, serif" }}
+      className={`${display.variable} ${body.variable} ${mono.variable} sl-shell relative text-[var(--ink)]`}
+      style={{ fontFamily: "var(--font-body), system-ui, sans-serif" }}
     >
-      <header className="max-w-3xl mx-auto px-5 pt-6 flex items-center justify-between">
-        <div className="flex items-center gap-2" style={D}>
-          <Padlock locked={isCommitted} />
-          <span className="text-lg font-bold tracking-tight">StackLock</span>
+      <div className="sl-noise" aria-hidden="true" />
+
+      {/* Top chrome */}
+      <header className="relative z-10 border-b border-[var(--line)] bg-[var(--panel)]/70 backdrop-blur-sm">
+        <div className="mx-auto flex h-14 max-w-[1120px] items-center justify-between px-6">
+          <div className="flex items-center gap-2.5">
+            <span
+              className={`grid h-7 w-7 place-items-center rounded-md border ${
+                isCommitted
+                  ? "border-[var(--amber)] bg-[var(--amber-soft)] text-[var(--amber)]"
+                  : "border-[var(--line-strong)] text-[var(--muted)]"
+              }`}
+            >
+              <Padlock locked={isCommitted} snap={lockSnap} />
+            </span>
+            <div className="leading-none">
+              <div
+                className="text-[15px] font-extrabold tracking-tight"
+                style={{ fontFamily: "var(--font-display), sans-serif" }}
+              >
+                StackLock
+              </div>
+              <div className="mt-0.5 font-[family-name:var(--font-mono)] text-[10px] tracking-[0.14em] text-[var(--dim)] uppercase">
+                day-1 commit tool
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-4 font-[family-name:var(--font-mono)] text-[11px] text-[var(--dim)]">
+            <span className="hidden items-center gap-1.5 sm:inline-flex">
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--green)]" />
+              live · no login
+            </span>
+            <span>lab 6 · itt</span>
+          </div>
         </div>
-        <span className="text-sm text-[#4A5058]" style={D}>
-          Lab 6 prototype · Team ITT
-        </span>
       </header>
 
-      <main className="max-w-3xl mx-auto px-5 pt-14 pb-20">
-        {/* Hero */}
-        <section className="mb-16">
-          <h1
-            className="text-5xl sm:text-7xl font-extrabold tracking-tight leading-[0.95] text-balance"
-            style={D}
-          >
-            Pick one stack.
-            <br />
-            Ship it tonight.
-          </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#2C3138]">
-            Comparing courses and frameworks feels like progress, but it
-            produces no software. Choose what you are building, follow three
-            steps, and paste a link to what you shipped.
-          </p>
+      <main className="relative z-10 mx-auto max-w-[1120px] px-6 py-8">
+        {/* Compact intro — not a full-bleed empty hero */}
+        <section className="sl-rise mb-7 grid items-end gap-4 border-b border-[var(--line)] pb-7 md:grid-cols-[1fr_auto]">
+          <div>
+            <h1
+              className="max-w-2xl text-[clamp(1.75rem,3.2vw,2.35rem)] leading-[1.15] font-extrabold tracking-tight text-balance"
+              style={{ fontFamily: "var(--font-display), sans-serif" }}
+            >
+              Pick one stack.
+              <span className="text-[var(--green)]"> Ship it tonight.</span>
+              <span
+                className="sl-blink ml-1 inline-block h-[0.85em] w-[0.45ch] translate-y-[0.08em] bg-[var(--green)] align-baseline"
+                aria-hidden="true"
+              />
+            </h1>
+            <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-[var(--muted)]">
+              Comparing courses feels like progress but ships nothing. Choose a
+              category, lock the stack, finish three steps, paste proof.
+            </p>
+          </div>
+          <div className="font-[family-name:var(--font-mono)] text-[11px] leading-5 text-[var(--dim)] md:text-right">
+            <div>target · ~30 min</div>
+            <div>north star · lock commit</div>
+            <div>status · {isCommitted ? "locked" : "awaiting lock"}</div>
+          </div>
         </section>
 
-        {/* Choose */}
-        <section aria-labelledby="choose" className="mb-14">
-          <h2
-            id="choose"
-            className="text-2xl font-bold tracking-tight"
-            style={D}
-          >
-            {isCommitted ? "Your stack" : "What are you building?"}
-          </h2>
-
-          <ul
-            className="mt-5 border-t-2 border-[#16181D]"
-            role="group"
-            aria-labelledby="choose"
-          >
-            {STACK_ORDER.map((key) => {
-              const config = STACKS[key];
-              const isSelected = selected === key;
-              if (isCommitted && !isSelected) return null;
-              return (
-                <li
-                  key={key}
-                  className="border-b border-[#16181D]/25 last:border-b-2 last:border-[#16181D]"
-                >
-                  <button
-                    type="button"
-                    aria-pressed={isSelected}
-                    disabled={isCommitted}
-                    onClick={() => handleSelect(key)}
-                    className={`w-full text-left px-4 sm:px-5 py-5 flex items-start justify-between gap-4 motion-safe:transition-colors focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FFD60A] focus-visible:ring-inset ${
-                      isSelected
-                        ? "bg-[#16181D] text-white"
-                        : "hover:bg-[#DDE1E5] cursor-pointer"
-                    } ${isCommitted ? "cursor-default" : ""}`}
-                  >
-                    <span className="block">
-                      <span
-                        className="block text-xl sm:text-2xl font-bold tracking-tight"
-                        style={D}
-                      >
-                        {config.category}
-                      </span>
-                      <span
-                        className={`block mt-0.5 text-sm ${isSelected ? "text-white/70" : "text-[#4A5058]"}`}
-                        style={D}
-                      >
-                        {config.name}
-                      </span>
-                      {isSelected && (
-                        <span className="block mt-3 text-base text-white/90">
-                          {config.tagline}
-                        </span>
-                      )}
-                    </span>
-                    <span className="shrink-0 mt-1">
-                      {isCommitted && isSelected ? (
-                        <Padlock locked className="text-[#FFD60A]" />
-                      ) : (
-                        <span
-                          aria-hidden="true"
-                          className={`block h-5 w-5 rounded-full border-2 ${
-                            isSelected
-                              ? "border-[#FFD60A] bg-[#FFD60A]"
-                              : "border-[#16181D]/50"
-                          }`}
-                        />
-                      )}
-                    </span>
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-
-          {/* Stack details */}
-          <div className="mt-10 grid md:grid-cols-5 gap-10">
-            <div className="md:col-span-3">
-              <h3 className="text-sm font-bold text-[#4A5058]" style={D}>
-                What you will use
-              </h3>
-              <dl className="mt-3 border-t border-[#16181D]/25">
-                {stack.coreTools.map((tool) => (
-                  <div
-                    key={tool.role}
-                    className="py-3 border-b border-[#16181D]/25 grid grid-cols-[6.5rem_1fr] gap-x-4"
-                  >
-                    <dt className="text-sm text-[#4A5058]" style={D}>
-                      {tool.role}
-                    </dt>
-                    <dd>
-                      <span className="block font-semibold" style={D}>
-                        {tool.tool}
-                      </span>
-                      <span className="block text-sm text-[#2C3138] mt-0.5">
-                        {tool.why}
-                      </span>
-                    </dd>
-                  </div>
-                ))}
-              </dl>
+        {/* Product workspace */}
+        <section
+          aria-labelledby="choose-heading"
+          className="sl-rise overflow-hidden rounded-xl border border-[var(--line-strong)] bg-[var(--panel)] shadow-[0_24px_80px_rgba(0,0,0,0.35)]"
+          style={{ animationDelay: "60ms" }}
+        >
+          <div className="flex items-center justify-between border-b border-[var(--line)] bg-[var(--panel-2)] px-4 py-2.5">
+            <div className="flex items-center gap-2 font-[family-name:var(--font-mono)] text-[11px] text-[var(--dim)]">
+              <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+              <span className="ml-2">stacklock://select</span>
             </div>
+            <span className="font-[family-name:var(--font-mono)] text-[11px] text-[var(--dim)]">
+              {isCommitted ? "mode: locked" : "mode: choose"}
+            </span>
+          </div>
 
-            <div className="md:col-span-2">
-              <h3 className="text-sm font-bold text-[#4A5058]" style={D}>
-                Skip these for now
-              </h3>
-              <ul className="mt-3 border-t border-[#16181D]/25">
-                {stack.skipForNow.map((item) => (
-                  <li
-                    key={item}
-                    className="py-3 border-b border-[#16181D]/25 text-sm text-[#2C3138] flex gap-3"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="text-[#B42318] font-bold"
-                    >
-                      –
-                    </span>
-                    <span>{item}</span>
-                  </li>
-                ))}
+          <div className="grid lg:grid-cols-[340px_1fr]">
+            {/* Stack list */}
+            <div className="border-b border-[var(--line)] lg:border-r lg:border-b-0">
+              <div className="border-b border-[var(--line)] px-4 py-3">
+                <h2
+                  id="choose-heading"
+                  className="font-[family-name:var(--font-mono)] text-[11px] tracking-[0.16em] text-[var(--dim)] uppercase"
+                >
+                  {isCommitted ? "locked stack" : "what are you building?"}
+                </h2>
+              </div>
+              <ul role="group" aria-labelledby="choose-heading">
+                {STACK_ORDER.map((key, index) => {
+                  const config = STACKS[key];
+                  const isSelected = selected === key;
+                  if (isCommitted && !isSelected) return null;
+                  return (
+                    <li key={key}>
+                      <button
+                        type="button"
+                        aria-pressed={isSelected}
+                        disabled={isCommitted}
+                        onClick={() => handleSelect(key)}
+                        className={`relative flex w-full items-start gap-3 border-b border-[var(--line)] px-4 py-3.5 text-left last:border-b-0 focus:outline-none focus-visible:bg-[var(--green-soft)] ${
+                          isSelected
+                            ? "bg-[var(--green-soft)]"
+                            : "hover:bg-white/[0.025] cursor-pointer"
+                        } ${isCommitted ? "cursor-default" : ""}`}
+                      >
+                        {isSelected && (
+                          <span
+                            aria-hidden="true"
+                            className="absolute inset-y-0 left-0 w-[3px] bg-[var(--green)]"
+                          />
+                        )}
+                        <span className="mt-0.5 font-[family-name:var(--font-mono)] text-[11px] text-[var(--dim)]">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span
+                            className="block text-[15px] font-bold tracking-tight"
+                            style={{
+                              fontFamily: "var(--font-display), sans-serif",
+                            }}
+                          >
+                            {config.category}
+                          </span>
+                          <span className="mt-0.5 block truncate font-[family-name:var(--font-mono)] text-[11px] text-[var(--muted)]">
+                            {config.name}
+                          </span>
+                        </span>
+                        {isCommitted && isSelected ? (
+                          <Padlock
+                            locked
+                            snap={lockSnap}
+                            className="mt-0.5 text-[var(--amber)]"
+                          />
+                        ) : (
+                          <span
+                            aria-hidden="true"
+                            className={`mt-1.5 h-3.5 w-3.5 shrink-0 rounded-full border ${
+                              isSelected
+                                ? "border-[var(--green)] bg-[var(--green)]"
+                                : "border-[var(--line-strong)]"
+                            }`}
+                          />
+                        )}
+                      </button>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
-          </div>
 
-          {/* Idea */}
-          <div className="mt-10 max-w-xl">
-            <label
-              htmlFor="idea"
-              className="block text-sm font-bold text-[#4A5058]"
-              style={D}
-            >
-              Your project in one sentence (optional, stays on this device)
-            </label>
-            <input
-              id="idea"
-              type="text"
-              disabled={isCommitted}
-              value={idea}
-              onChange={(e) => setIdea(e.target.value)}
-              placeholder="A budgeting tracker for university students"
-              className="mt-2 w-full bg-transparent border-b-2 border-[#16181D] py-2 text-lg placeholder:text-[#4A5058]/70 focus:outline-none focus:border-b-4 disabled:opacity-60"
-            />
+            {/* Detail pane */}
+            <div className="flex flex-col">
+              <div className="border-b border-[var(--line)] px-5 py-4">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <p className="font-[family-name:var(--font-mono)] text-[11px] tracking-[0.14em] text-[var(--green)] uppercase">
+                      {stack.id} · selected
+                    </p>
+                    <h3
+                      className="mt-1 text-xl font-bold tracking-tight"
+                      style={{
+                        fontFamily: "var(--font-display), sans-serif",
+                      }}
+                    >
+                      {stack.category}
+                    </h3>
+                    <p className="mt-1 max-w-lg text-sm leading-relaxed text-[var(--muted)]">
+                      {stack.tagline}
+                    </p>
+                  </div>
+                  {isCommitted && (
+                    <button
+                      type="button"
+                      onClick={handleChangeSelection}
+                      className="font-[family-name:var(--font-mono)] text-[11px] text-[var(--muted)] underline underline-offset-4 hover:text-[var(--ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--green)]"
+                    >
+                      unlock / change
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              <div className="grid flex-1 gap-0 md:grid-cols-2">
+                <div className="border-b border-[var(--line)] px-5 py-4 md:border-r md:border-b-0">
+                  <h4 className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.16em] text-[var(--dim)] uppercase">
+                    you will use
+                  </h4>
+                  <dl className="mt-3 space-y-3">
+                    {stack.coreTools.map((tool) => (
+                      <div key={tool.role}>
+                        <dt className="font-[family-name:var(--font-mono)] text-[10px] tracking-wide text-[var(--dim)] uppercase">
+                          {tool.role}
+                        </dt>
+                        <dd className="mt-0.5">
+                          <div className="text-sm font-semibold tracking-tight">
+                            {tool.tool}
+                          </div>
+                          <div className="mt-0.5 text-[13px] leading-snug text-[var(--muted)]">
+                            {tool.why}
+                          </div>
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+
+                <div className="px-5 py-4">
+                  <h4 className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.16em] text-[var(--dim)] uppercase">
+                    skip for now
+                  </h4>
+                  <ul className="mt-3 space-y-2">
+                    {stack.skipForNow.map((item) => (
+                      <li
+                        key={item}
+                        className="flex gap-2 text-[13px] leading-snug text-[var(--muted)]"
+                      >
+                        <span className="font-[family-name:var(--font-mono)] text-[var(--danger)]">
+                          //
+                        </span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div className="mt-auto border-t border-[var(--line)] bg-[var(--panel-2)] px-5 py-4">
+                <label
+                  htmlFor="idea"
+                  className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.16em] text-[var(--dim)] uppercase"
+                >
+                  project in one sentence
+                  <span className="ml-2 normal-case tracking-normal opacity-70">
+                    optional · local only
+                  </span>
+                </label>
+                <input
+                  id="idea"
+                  type="text"
+                  disabled={isCommitted}
+                  value={idea}
+                  onChange={(e) => setIdea(e.target.value)}
+                  placeholder="A budgeting tracker for university students"
+                  className="mt-2 w-full rounded-md border border-[var(--line-strong)] bg-[var(--bg)] px-3 py-2.5 font-[family-name:var(--font-mono)] text-sm text-[var(--ink)] placeholder:text-[var(--dim)] focus:border-[var(--green)] focus:outline-none disabled:opacity-50"
+                />
+
+                {!isCommitted ? (
+                  <div className="mt-4 flex flex-wrap items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={handleCommit}
+                      className="inline-flex items-center gap-2 rounded-md bg-[var(--amber)] px-4 py-2.5 font-[family-name:var(--font-mono)] text-sm font-semibold tracking-wide text-[#1a1405] hover:brightness-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--green)] cursor-pointer"
+                    >
+                      <Padlock locked={false} />
+                      lock this stack & start
+                    </button>
+                    <p className="max-w-xs font-[family-name:var(--font-mono)] text-[11px] leading-relaxed text-[var(--dim)]">
+                      Opens 3 Day 1 steps. You can unlock later — we log that.
+                    </p>
+                  </div>
+                ) : (
+                  <p className="mt-3 inline-flex items-center gap-2 font-[family-name:var(--font-mono)] text-[12px] text-[var(--amber)]">
+                    <Padlock locked snap={lockSnap} />
+                    stack locked · scroll to Day 1 steps
+                  </p>
+                )}
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* Commit or build */}
-        {!isCommitted ? (
-          <section aria-labelledby="commit">
-            <h2 id="commit" className="sr-only">
-              Start
-            </h2>
-            <button
-              type="button"
-              onClick={handleCommit}
-              className="inline-flex items-center gap-3 bg-[#FFD60A] text-[#16181D] px-7 py-4 rounded-md text-lg font-bold border-2 border-[#16181D] shadow-[0_5px_0_#16181D] motion-safe:transition-transform active:translate-y-[4px] active:shadow-[0_1px_0_#16181D] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#16181D]/40 cursor-pointer"
-              style={D}
-            >
-              <Padlock locked={false} />
-              Lock this stack and start
-            </button>
-            <p className="mt-4 text-sm text-[#4A5058] max-w-md">
-              This opens three steps. We aim for about 30 minutes and record how
-              long it really takes. You can change your mind, and we log that
-              too.
-            </p>
-          </section>
-        ) : (
-          <section aria-labelledby="build">
-            <div className="flex items-end justify-between gap-4">
-              <h2
-                id="build"
-                className="text-2xl font-bold tracking-tight"
-                style={D}
-              >
-                Your three steps
-              </h2>
-              <button
-                type="button"
-                onClick={handleChangeSelection}
-                className="text-sm underline underline-offset-4 text-[#4A5058] hover:text-[#16181D] cursor-pointer focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FFD60A] rounded"
-                style={D}
-              >
-                Change stack
-              </button>
-            </div>
-
-            <div className="mt-4" aria-live="polite">
-              <div
-                className="flex justify-between text-sm font-semibold"
-                style={D}
-              >
-                <span>
-                  {checked.length} of {total} done
-                </span>
+        {/* Build section after commit */}
+        {isCommitted && (
+          <section
+            ref={buildRef}
+            aria-labelledby="build"
+            className="sl-rise mt-8 scroll-mt-6 overflow-hidden rounded-xl border border-[var(--line-strong)] bg-[var(--panel)]"
+          >
+            <div className="flex items-center justify-between border-b border-[var(--line)] bg-[var(--panel-2)] px-5 py-3">
+              <div>
+                <p className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.16em] text-[var(--dim)] uppercase">
+                  execute · day 1
+                </p>
+                <h2
+                  id="build"
+                  className="text-lg font-bold tracking-tight"
+                  style={{ fontFamily: "var(--font-display), sans-serif" }}
+                >
+                  Your three steps
+                </h2>
               </div>
               <div
-                className="mt-2 h-2 bg-[#16181D]/15 rounded-full overflow-hidden"
-                aria-hidden="true"
+                className="font-[family-name:var(--font-mono)] text-sm text-[var(--green)]"
+                aria-live="polite"
               >
-                <div
-                  className="h-full bg-[#1F7A45] motion-safe:transition-all"
-                  style={{ width: `${(checked.length / total) * 100}%` }}
-                />
+                {checked.length}/{total}
               </div>
             </div>
 
-            <ol className="mt-6 space-y-3">
+            <div className="h-1 bg-[var(--line)]" aria-hidden="true">
+              <div
+                className="h-full bg-[var(--green)] motion-safe:transition-all motion-safe:duration-300"
+                style={{ width: `${(checked.length / total) * 100}%` }}
+              />
+            </div>
+
+            <ol>
               {stack.day1Milestones.map((milestone, idx) => {
                 const isChecked = checked.includes(idx);
                 return (
-                  <li key={milestone}>
+                  <li key={milestone} className="border-b border-[var(--line)]">
                     <label
-                      className={`flex items-start gap-4 p-4 border-2 cursor-pointer motion-safe:transition-colors ${
+                      className={`flex cursor-pointer items-start gap-4 px-5 py-4 ${
                         isChecked
-                          ? "border-[#1F7A45] bg-[#DCEFE3]"
-                          : "border-[#16181D] bg-white hover:bg-[#F6F7F8]"
+                          ? "bg-[var(--green-soft)]"
+                          : "hover:bg-white/[0.02]"
                       }`}
                     >
                       <input
@@ -498,17 +588,20 @@ export default function Home() {
                       />
                       <span
                         aria-hidden="true"
-                        className={`shrink-0 h-8 w-8 grid place-items-center rounded-full border-2 text-sm font-bold peer-focus-visible:ring-4 peer-focus-visible:ring-[#FFD60A] ${
+                        className={`grid h-7 w-7 shrink-0 place-items-center rounded-md border font-[family-name:var(--font-mono)] text-[11px] font-semibold peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--green)] ${
                           isChecked
-                            ? "bg-[#1F7A45] border-[#1F7A45] text-white"
-                            : "border-[#16181D] text-[#16181D]"
+                            ? "border-[var(--green)] bg-[var(--green)] text-[#04140c]"
+                            : "border-[var(--line-strong)] text-[var(--muted)]"
                         }`}
-                        style={D}
                       >
-                        {isChecked ? "✓" : idx + 1}
+                        {isChecked ? "✓" : String(idx + 1).padStart(2, "0")}
                       </span>
                       <span
-                        className={`pt-1 text-base ${isChecked ? "text-[#2C3138]" : ""}`}
+                        className={`pt-0.5 text-[15px] leading-relaxed ${
+                          isChecked
+                            ? "text-[var(--muted)] line-through decoration-[var(--dim)]"
+                            : ""
+                        }`}
                       >
                         {milestone}
                       </span>
@@ -518,54 +611,55 @@ export default function Home() {
               })}
             </ol>
 
-            {/* Command */}
-            <div className="mt-10">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-bold text-[#4A5058]" style={D}>
+            <div className="border-b border-[var(--line)] px-5 py-4">
+              <div className="mb-2 flex items-center justify-between">
+                <span className="font-[family-name:var(--font-mono)] text-[11px] tracking-[0.14em] text-[var(--dim)] uppercase">
                   {commandLabel}
                 </span>
                 <button
                   type="button"
                   onClick={handleCopy}
-                  className="text-sm font-semibold underline underline-offset-4 cursor-pointer focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FFD60A] rounded"
-                  style={D}
+                  className="font-[family-name:var(--font-mono)] text-[11px] text-[var(--green)] hover:text-[var(--ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--green)] cursor-pointer"
                 >
                   {copyLabel}
                 </button>
               </div>
-              <pre className="bg-[#16181D] text-[#F4F5F7] font-mono text-sm p-4 rounded-md overflow-x-auto">
+              <pre className="overflow-x-auto rounded-md border border-[var(--line)] bg-[var(--bg)] px-4 py-3 font-[family-name:var(--font-mono)] text-[13px] leading-relaxed text-[var(--green)]">
+                <span className="select-none text-[var(--dim)]">$ </span>
                 {stack.command}
               </pre>
             </div>
 
-            {/* Proof */}
-            <div className="mt-12 pt-8 border-t-2 border-[#16181D]">
-              <h3 className="text-2xl font-bold tracking-tight" style={D}>
+            <div className="px-5 py-5">
+              <h3
+                className="text-base font-bold tracking-tight"
+                style={{ fontFamily: "var(--font-display), sans-serif" }}
+              >
                 Paste what you shipped
               </h3>
               {proofUrl ? (
-                <div className="mt-4 p-4 border-2 border-[#1F7A45] bg-[#DCEFE3]">
-                  <p className="font-bold text-[#1F7A45]" style={D}>
-                    Recorded
+                <div className="mt-3 rounded-md border border-[var(--green)] bg-[var(--green-soft)] px-4 py-3">
+                  <p className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.16em] text-[var(--green)] uppercase">
+                    recorded
                   </p>
                   <a
                     href={proofUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-1 block break-all underline underline-offset-4"
+                    className="mt-1 block break-all font-[family-name:var(--font-mono)] text-sm underline underline-offset-4"
                   >
                     {proofUrl}
                   </a>
                 </div>
               ) : (
-                <form onSubmit={handleSubmitProof} noValidate className="mt-4">
+                <form onSubmit={handleSubmitProof} noValidate className="mt-3">
                   <label
                     htmlFor="proof"
-                    className="block text-sm text-[#2C3138]"
+                    className="block text-sm text-[var(--muted)]"
                   >
                     {stack.proofHint}
                   </label>
-                  <div className="mt-2 flex flex-col sm:flex-row gap-3">
+                  <div className="mt-2 flex gap-2">
                     <input
                       id="proof"
                       type="url"
@@ -575,21 +669,20 @@ export default function Home() {
                       aria-invalid={proofError !== null}
                       aria-describedby={proofError ? "proof-error" : undefined}
                       placeholder="https://"
-                      className="flex-1 bg-white border-2 border-[#16181D] px-4 py-3 text-base placeholder:text-[#4A5058]/70 focus:outline-none focus:ring-4 focus:ring-[#FFD60A]"
+                      className="min-w-0 flex-1 rounded-md border border-[var(--line-strong)] bg-[var(--bg)] px-3 py-2.5 font-[family-name:var(--font-mono)] text-sm placeholder:text-[var(--dim)] focus:border-[var(--green)] focus:outline-none"
                     />
                     <button
                       type="submit"
-                      className="bg-[#16181D] text-white px-6 py-3 font-bold cursor-pointer focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FFD60A]"
-                      style={D}
+                      className="shrink-0 rounded-md bg-[var(--ink)] px-4 py-2.5 font-[family-name:var(--font-mono)] text-sm font-semibold text-[var(--bg)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--green)] cursor-pointer"
                     >
-                      Submit link
+                      submit
                     </button>
                   </div>
                   {proofError && (
                     <p
                       id="proof-error"
                       role="alert"
-                      className="mt-2 text-sm font-semibold text-[#B42318]"
+                      className="mt-2 font-[family-name:var(--font-mono)] text-sm text-[var(--danger)]"
                     >
                       {proofError}
                     </p>
@@ -601,11 +694,8 @@ export default function Home() {
         )}
       </main>
 
-      <footer
-        className="max-w-3xl mx-auto px-5 pb-10 text-xs text-[#4A5058]"
-        style={D}
-      >
-        CS-PD Fall 2026 · Week 7 ship gate · Events documented in
+      <footer className="relative z-10 mx-auto max-w-[1120px] px-6 pb-8 font-[family-name:var(--font-mono)] text-[10px] tracking-wide text-[var(--dim)]">
+        CS-PD Fall 2026 · Week 7 ship gate · events in
         03-build/analytics/event-schema.md
       </footer>
     </div>
