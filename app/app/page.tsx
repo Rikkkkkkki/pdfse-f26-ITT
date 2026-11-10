@@ -27,6 +27,14 @@ const mono = IBM_Plex_Mono({
 
 const STORAGE_KEY = "stacklock:v2";
 
+const RANDOM_IDEAS = [
+  "A Telegram bot that reminds me to drink water",
+  "A 2D game where a square dodges taxes",
+  "A habit tracker that yells at me",
+  "A mobile app for rating local park benches",
+  "A web dashboard for my job applications",
+];
+
 interface SavedState {
   selected: StackId;
   idea: string;
@@ -95,6 +103,8 @@ export default function Home() {
   const [copyState, setCopyState] = useState<CopyState>("idle");
   const [hydrated, setHydrated] = useState(false);
   const [lockSnap, setLockSnap] = useState(false);
+  const [unlockConfirm, setUnlockConfirm] = useState(false);
+  const [isCelebrating, setIsCelebrating] = useState(false);
 
   const loadedAt = useRef<number>(Date.now());
   const selectionCount = useRef(0);
@@ -118,9 +128,7 @@ export default function Home() {
           setChecked(s.checked.filter((n) => Number.isInteger(n)));
         if (typeof s.proofUrl === "string") setProofUrl(s.proofUrl);
       }
-    } catch {
-      // Storage blocked or corrupted: start fresh.
-    }
+    } catch {}
     setHydrated(true);
   }, []);
 
@@ -136,9 +144,7 @@ export default function Home() {
         proofUrl,
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch {
-      // Ignore quota or privacy-mode errors.
-    }
+    } catch {}
   }, [
     hydrated,
     selected,
@@ -161,6 +167,12 @@ export default function Home() {
     setChecked([]);
   };
 
+  const handleRollDice = () => {
+    const newIdea =
+      RANDOM_IDEAS[Math.floor(Math.random() * RANDOM_IDEAS.length)];
+    setIdea(newIdea);
+  };
+
   const handleCommit = () => {
     captureEvent(
       hasCommittedBefore ? "stack_recommitted" : "user_commits_stack",
@@ -174,6 +186,7 @@ export default function Home() {
     );
     setCommittedAt(Date.now());
     setHasCommittedBefore(true);
+    setUnlockConfirm(false);
     setLockSnap(true);
     window.setTimeout(() => setLockSnap(false), 400);
     window.setTimeout(() => {
@@ -182,6 +195,10 @@ export default function Home() {
   };
 
   const handleChangeSelection = () => {
+    if (!unlockConfirm) {
+      setUnlockConfirm(true);
+      return;
+    }
     captureEvent("change_selection_clicked", {
       stack_id: selected,
       steps_done: checked.length,
@@ -193,6 +210,7 @@ export default function Home() {
     setProofUrl(null);
     setProofDraft("");
     setProofError(null);
+    setUnlockConfirm(false);
   };
 
   const handleToggleStep = (index: number) => {
@@ -232,6 +250,7 @@ export default function Home() {
     }
     setProofError(null);
     setProofUrl(url.href);
+    setIsCelebrating(true);
     captureEvent("day1_proof_submitted", {
       stack_id: selected,
       proof_host: url.hostname,
@@ -241,9 +260,7 @@ export default function Home() {
   };
 
   const commandLabel =
-    stack.commandKind === "link"
-      ? "download link"
-      : "starter command";
+    stack.commandKind === "link" ? "download link" : "starter command";
   const copyLabel =
     copyState === "copied"
       ? "copied ✓"
@@ -258,34 +275,30 @@ export default function Home() {
     >
       <div className="sl-noise" aria-hidden="true" />
 
-      {/* Top chrome */}
-      <header className="relative z-10 border-b border-[var(--line)] bg-[var(--panel)]/70 backdrop-blur-sm">
-        <div className="mx-auto flex h-14 max-w-[1120px] items-center justify-between px-6">
-          <div className="flex items-center gap-2.5">
+      {/* Header */}
+      <header className="relative z-10 border-b border-[var(--line)] bg-[var(--panel)]/90 backdrop-blur-md">
+        <div className="mx-auto flex h-16 max-w-[1120px] items-center justify-between px-6">
+          <div className="flex items-center gap-3">
             <span
-              className={`grid h-7 w-7 place-items-center rounded-md border ${
-                isCommitted
-                  ? "border-[var(--amber)] bg-[var(--amber-soft)] text-[var(--amber)]"
-                  : "border-[var(--line-strong)] text-[var(--muted)]"
-              }`}
+              className={`grid h-8 w-8 place-items-center rounded-lg border shadow-sm ${isCommitted ? "border-[var(--amber)] bg-[var(--amber-soft)] text-[var(--amber)]" : "border-[var(--line-strong)] bg-black/20 text-[var(--muted)]"}`}
             >
               <Padlock locked={isCommitted} snap={lockSnap} />
             </span>
             <div className="leading-none">
               <div
-                className="text-[15px] font-extrabold tracking-tight"
+                className="text-lg font-extrabold tracking-tight"
                 style={{ fontFamily: "var(--font-display), sans-serif" }}
               >
                 StackLock
               </div>
-              <div className="mt-0.5 font-[family-name:var(--font-mono)] text-[10px] tracking-[0.14em] text-[var(--dim)] uppercase">
+              <div className="mt-1 font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--dim)] uppercase font-semibold">
                 day-1 commit tool
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-4 font-[family-name:var(--font-mono)] text-[11px] text-[var(--dim)]">
-            <span className="hidden items-center gap-1.5 sm:inline-flex">
-              <span className="h-1.5 w-1.5 rounded-full bg-[var(--green)]" />
+          <div className="flex items-center gap-4 font-[family-name:var(--font-mono)] text-[11px] font-medium text-[var(--dim)]">
+            <span className="hidden items-center gap-2 sm:inline-flex rounded-full border border-[var(--line)] bg-black/20 px-3 py-1">
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--green)] animate-pulse" />{" "}
               live · no login
             </span>
             <span>lab 6 · itt</span>
@@ -293,58 +306,72 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="relative z-10 mx-auto max-w-[1120px] px-6 py-8">
-        {/* Compact intro — not a full-bleed empty hero */}
-        <section className="sl-rise mb-7 grid items-end gap-4 border-b border-[var(--line)] pb-7 md:grid-cols-[1fr_auto]">
+      <main className="relative z-10 mx-auto max-w-[1120px] px-6 py-12">
+        {/* Hero Section */}
+        <section className="sl-rise mb-10 grid items-end gap-6 border-b border-[var(--line)] pb-10 md:grid-cols-[1fr_auto]">
           <div>
             <h1
-              className="max-w-2xl text-[clamp(1.75rem,3.2vw,2.35rem)] leading-[1.15] font-extrabold tracking-tight text-balance"
+              className="max-w-2xl text-[clamp(2rem,4vw,3rem)] leading-[1.1] font-extrabold tracking-tight text-white text-balance"
               style={{ fontFamily: "var(--font-display), sans-serif" }}
             >
-              Pick one stack.
-              <span className="text-[var(--green)]"> Ship it tonight.</span>
+              Pick one stack. <br className="hidden md:block" />
+              <span className="text-[var(--green)]">Ship it tonight.</span>
               <span
-                className="sl-blink ml-1 inline-block h-[0.85em] w-[0.45ch] translate-y-[0.08em] bg-[var(--green)] align-baseline"
+                className="sl-blink ml-2 inline-block h-[0.8em] w-[0.45ch] translate-y-[0.1em] bg-[var(--green)] align-baseline"
                 aria-hidden="true"
               />
             </h1>
-            <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-[var(--muted)]">
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-[var(--muted)] font-medium">
               Comparing courses feels like progress but ships nothing. Choose a
               category, lock the stack, finish three steps, paste proof.
             </p>
           </div>
-          <div className="font-[family-name:var(--font-mono)] text-[11px] leading-5 text-[var(--dim)] md:text-right">
-            <div>target · ~30 min</div>
-            <div>north star · lock commit</div>
-            <div>status · {isCommitted ? "locked" : "awaiting lock"}</div>
+          <div className="font-[family-name:var(--font-mono)] text-xs leading-6 text-[var(--dim)] md:text-right p-4 rounded-lg bg-black/20 border border-[var(--line)]">
+            <div>
+              target <span className="text-[var(--muted)] ml-2">~30 min</span>
+            </div>
+            <div>
+              north star{" "}
+              <span className="text-[var(--muted)] ml-2">lock commit</span>
+            </div>
+            <div>
+              status{" "}
+              <span
+                className={`ml-2 font-bold ${isCommitted ? "text-[var(--amber)]" : "text-[var(--muted)]"}`}
+              >
+                {isCommitted ? "locked" : "awaiting lock"}
+              </span>
+            </div>
           </div>
         </section>
 
-        {/* Product workspace */}
+        {/* Builder Workspace */}
         <section
           aria-labelledby="choose-heading"
-          className="sl-rise overflow-hidden rounded-xl border border-[var(--line-strong)] bg-[var(--panel)] shadow-[0_24px_80px_rgba(0,0,0,0.35)]"
+          className="sl-rise overflow-hidden rounded-2xl border border-[var(--line-strong)] bg-[var(--panel)] shadow-[0_32px_96px_rgba(0,0,0,0.5)]"
           style={{ animationDelay: "60ms" }}
         >
-          <div className="flex items-center justify-between border-b border-[var(--line)] bg-[var(--panel-2)] px-4 py-2.5">
+          <div className="flex items-center justify-between border-b border-[var(--line)] bg-[var(--panel-2)] px-5 py-3">
             <div className="flex items-center gap-2 font-[family-name:var(--font-mono)] text-[11px] text-[var(--dim)]">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
-              <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
-              <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-              <span className="ml-2">stacklock://select</span>
+              <span className="h-3 w-3 rounded-full bg-[#ff5f57] border border-black/20" />
+              <span className="h-3 w-3 rounded-full bg-[#febc2e] border border-black/20" />
+              <span className="h-3 w-3 rounded-full bg-[#28c840] border border-black/20" />
+              <span className="ml-3 font-semibold tracking-wide">
+                stacklock://select
+              </span>
             </div>
-            <span className="font-[family-name:var(--font-mono)] text-[11px] text-[var(--dim)]">
+            <span className="font-[family-name:var(--font-mono)] text-[11px] font-bold tracking-wider text-[var(--dim)] uppercase">
               {isCommitted ? "mode: locked" : "mode: choose"}
             </span>
           </div>
 
           <div className="grid lg:grid-cols-[340px_1fr]">
-            {/* Stack list */}
-            <div className="border-b border-[var(--line)] lg:border-r lg:border-b-0">
-              <div className="border-b border-[var(--line)] px-4 py-3">
+            {/* Sidebar */}
+            <div className="border-b border-[var(--line)] lg:border-r lg:border-b-0 bg-[#070a0e]/50">
+              <div className="border-b border-[var(--line)] px-5 py-4">
                 <h2
                   id="choose-heading"
-                  className="font-[family-name:var(--font-mono)] text-[11px] tracking-[0.16em] text-[var(--dim)] uppercase"
+                  className="font-[family-name:var(--font-mono)] text-[11px] font-bold tracking-[0.2em] text-[var(--dim)] uppercase"
                 >
                   {isCommitted ? "locked stack" : "what are you building?"}
                 </h2>
@@ -361,31 +388,27 @@ export default function Home() {
                         aria-pressed={isSelected}
                         disabled={isCommitted}
                         onClick={() => handleSelect(key)}
-                        className={`relative flex w-full items-start gap-3 border-b border-[var(--line)] px-4 py-3.5 text-left last:border-b-0 focus:outline-none focus-visible:bg-[var(--green-soft)] ${
-                          isSelected
-                            ? "bg-[var(--green-soft)]"
-                            : "hover:bg-white/[0.025] cursor-pointer"
-                        } ${isCommitted ? "cursor-default" : ""}`}
+                        className={`relative flex w-full items-center gap-4 border-b border-[var(--line)] px-5 py-4 text-left last:border-b-0 transition-colors focus:outline-none focus-visible:bg-[var(--green-soft)] ${isSelected ? "bg-[var(--green-soft)]" : "hover:bg-white/[0.04] cursor-pointer"} ${isCommitted ? "cursor-default" : ""}`}
                       >
                         {isSelected && (
                           <span
                             aria-hidden="true"
-                            className="absolute inset-y-0 left-0 w-[3px] bg-[var(--green)]"
+                            className="absolute inset-y-0 left-0 w-1 bg-[var(--green)] shadow-[0_0_10px_rgba(57,217,138,0.5)]"
                           />
                         )}
-                        <span className="mt-0.5 font-[family-name:var(--font-mono)] text-[11px] text-[var(--dim)]">
+                        <span className="font-[family-name:var(--font-mono)] text-[11px] font-bold text-[var(--dim)]">
                           {String(index + 1).padStart(2, "0")}
                         </span>
                         <span className="min-w-0 flex-1">
                           <span
-                            className="block text-[15px] font-bold tracking-tight"
+                            className="block text-base font-bold tracking-tight text-white"
                             style={{
                               fontFamily: "var(--font-display), sans-serif",
                             }}
                           >
                             {config.category}
                           </span>
-                          <span className="mt-0.5 block truncate font-[family-name:var(--font-mono)] text-[11px] text-[var(--muted)]">
+                          <span className="mt-1 block truncate font-[family-name:var(--font-mono)] text-xs text-[var(--muted)]">
                             {config.name}
                           </span>
                         </span>
@@ -393,16 +416,12 @@ export default function Home() {
                           <Padlock
                             locked
                             snap={lockSnap}
-                            className="mt-0.5 text-[var(--amber)]"
+                            className="text-[var(--amber)]"
                           />
                         ) : (
                           <span
                             aria-hidden="true"
-                            className={`mt-1.5 h-3.5 w-3.5 shrink-0 rounded-full border ${
-                              isSelected
-                                ? "border-[var(--green)] bg-[var(--green)]"
-                                : "border-[var(--line-strong)]"
-                            }`}
+                            className={`h-4 w-4 shrink-0 rounded-full border-2 ${isSelected ? "border-[var(--green)] bg-[var(--green)] shadow-[0_0_10px_rgba(57,217,138,0.3)]" : "border-[var(--line-strong)]"}`}
                           />
                         )}
                       </button>
@@ -412,54 +431,39 @@ export default function Home() {
               </ul>
             </div>
 
-            {/* Detail pane */}
+            {/* Content Area */}
             <div className="flex flex-col">
-              <div className="border-b border-[var(--line)] px-5 py-4">
-                <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div>
-                    <p className="font-[family-name:var(--font-mono)] text-[11px] tracking-[0.14em] text-[var(--green)] uppercase">
-                      {stack.id} · selected
-                    </p>
-                    <h3
-                      className="mt-1 text-xl font-bold tracking-tight"
-                      style={{
-                        fontFamily: "var(--font-display), sans-serif",
-                      }}
-                    >
-                      {stack.category}
-                    </h3>
-                    <p className="mt-1 max-w-lg text-sm leading-relaxed text-[var(--muted)]">
-                      {stack.tagline}
-                    </p>
-                  </div>
-                  {isCommitted && (
-                    <button
-                      type="button"
-                      onClick={handleChangeSelection}
-                      className="font-[family-name:var(--font-mono)] text-[11px] text-[var(--muted)] underline underline-offset-4 hover:text-[var(--ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--green)]"
-                    >
-                      unlock / change
-                    </button>
-                  )}
-                </div>
+              <div className="border-b border-[var(--line)] px-6 py-6">
+                <p className="font-[family-name:var(--font-mono)] text-xs font-bold tracking-[0.2em] text-[var(--green)] uppercase">
+                  {stack.id} · selected
+                </p>
+                <h3
+                  className="mt-2 text-3xl font-extrabold tracking-tight text-white"
+                  style={{ fontFamily: "var(--font-display), sans-serif" }}
+                >
+                  {stack.category}
+                </h3>
+                <p className="mt-2 max-w-lg text-base leading-relaxed text-[var(--muted)]">
+                  {stack.tagline}
+                </p>
               </div>
 
               <div className="grid flex-1 gap-0 md:grid-cols-2">
-                <div className="border-b border-[var(--line)] px-5 py-4 md:border-r md:border-b-0">
-                  <h4 className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.16em] text-[var(--dim)] uppercase">
+                <div className="border-b border-[var(--line)] px-6 py-5 md:border-r md:border-b-0 bg-black/10">
+                  <h4 className="font-[family-name:var(--font-mono)] text-[10px] font-bold tracking-[0.2em] text-[var(--dim)] uppercase">
                     you will use
                   </h4>
-                  <dl className="mt-3 space-y-3">
+                  <dl className="mt-4 space-y-4">
                     {stack.coreTools.map((tool) => (
                       <div key={tool.role}>
-                        <dt className="font-[family-name:var(--font-mono)] text-[10px] tracking-wide text-[var(--dim)] uppercase">
+                        <dt className="font-[family-name:var(--font-mono)] text-[10px] font-semibold tracking-wider text-[var(--dim)] uppercase">
                           {tool.role}
                         </dt>
-                        <dd className="mt-0.5">
-                          <div className="text-sm font-semibold tracking-tight">
+                        <dd className="mt-1">
+                          <div className="text-sm font-bold tracking-tight text-[var(--ink)]">
                             {tool.tool}
                           </div>
-                          <div className="mt-0.5 text-[13px] leading-snug text-[var(--muted)]">
+                          <div className="mt-1 text-xs leading-relaxed text-[var(--muted)]">
                             {tool.why}
                           </div>
                         </dd>
@@ -468,17 +472,17 @@ export default function Home() {
                   </dl>
                 </div>
 
-                <div className="px-5 py-4">
-                  <h4 className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.16em] text-[var(--dim)] uppercase">
+                <div className="px-6 py-5 bg-black/10">
+                  <h4 className="font-[family-name:var(--font-mono)] text-[10px] font-bold tracking-[0.2em] text-[var(--dim)] uppercase">
                     skip for now
                   </h4>
-                  <ul className="mt-3 space-y-2">
+                  <ul className="mt-4 space-y-3">
                     {stack.skipForNow.map((item) => (
                       <li
                         key={item}
-                        className="flex gap-2 text-[13px] leading-snug text-[var(--muted)]"
+                        className="flex gap-3 text-sm leading-snug text-[var(--muted)] items-start"
                       >
-                        <span className="font-[family-name:var(--font-mono)] text-[var(--danger)]">
+                        <span className="font-[family-name:var(--font-mono)] text-[var(--danger)] font-bold">
                           //
                         </span>
                         <span>{item}</span>
@@ -488,82 +492,97 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="mt-auto border-t border-[var(--line)] bg-[var(--panel-2)] px-5 py-4">
+              {/* Commit Bar */}
+              <div className="mt-auto border-t border-[var(--line)] bg-[var(--panel-2)] px-6 py-6">
                 <label
                   htmlFor="idea"
-                  className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.16em] text-[var(--dim)] uppercase"
+                  className="font-[family-name:var(--font-mono)] text-[10px] font-bold tracking-[0.2em] text-[var(--dim)] uppercase"
                 >
-                  project in one sentence
-                  <span className="ml-2 normal-case tracking-normal opacity-70">
-                    optional · local only
+                  project in one sentence{" "}
+                  <span className="ml-2 normal-case font-normal tracking-normal opacity-70">
+                    optional
                   </span>
                 </label>
-                <input
-                  id="idea"
-                  type="text"
-                  disabled={isCommitted}
-                  value={idea}
-                  onChange={(e) => setIdea(e.target.value)}
-                  placeholder="A budgeting tracker for university students"
-                  className="mt-2 w-full rounded-md border border-[var(--line-strong)] bg-[var(--bg)] px-3 py-2.5 font-[family-name:var(--font-mono)] text-sm text-[var(--ink)] placeholder:text-[var(--dim)] focus:border-[var(--green)] focus:outline-none disabled:opacity-50"
-                />
+                <div className="mt-3 flex gap-2">
+                  <input
+                    id="idea"
+                    type="text"
+                    disabled={isCommitted}
+                    value={idea}
+                    onChange={(e) => setIdea(e.target.value)}
+                    placeholder="A budgeting tracker for university students..."
+                    className="w-full rounded-lg border border-[var(--line-strong)] bg-black/40 px-4 py-3 font-[family-name:var(--font-mono)] text-sm text-[var(--ink)] placeholder:text-[var(--dim)] focus:border-[var(--green)] focus:ring-1 focus:ring-[var(--green)] focus:outline-none disabled:opacity-50 transition-colors"
+                  />
+                  {!isCommitted && (
+                    <button
+                      type="button"
+                      onClick={handleRollDice}
+                      className="shrink-0 rounded-lg border border-[var(--line-strong)] bg-black/40 px-4 py-3 hover:border-[var(--green)] focus:outline-none transition-colors cursor-pointer"
+                      aria-label="Random Idea"
+                      title="Roll for a random idea"
+                    >
+                      🎲
+                    </button>
+                  )}
+                </div>
 
                 {!isCommitted ? (
-                  <div className="mt-4 flex flex-wrap items-center gap-3">
+                  <div className="mt-6 flex flex-wrap items-center gap-4">
                     <button
                       type="button"
                       onClick={handleCommit}
-                      className="inline-flex items-center gap-2 rounded-md bg-[var(--amber)] px-4 py-2.5 font-[family-name:var(--font-mono)] text-sm font-semibold tracking-wide text-[#1a1405] hover:brightness-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--green)] cursor-pointer"
+                      className="inline-flex items-center gap-2 rounded-lg bg-[var(--amber)] px-6 py-3.5 font-[family-name:var(--font-mono)] text-sm font-bold tracking-wide text-[#1a1405] hover:bg-[#ffcd57] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--green)] transition-colors shadow-[0_0_15px_rgba(245,193,74,0.2)] cursor-pointer"
                     >
-                      <Padlock locked={false} />
-                      lock this stack & start
+                      <Padlock locked={false} /> lock this stack & start
                     </button>
                     <p className="max-w-xs font-[family-name:var(--font-mono)] text-[11px] leading-relaxed text-[var(--dim)]">
-                      Opens 3 Day 1 steps. You can unlock later — we log that.
+                      Opens 3 Day 1 steps. No login required.
                     </p>
                   </div>
                 ) : (
-                  <p className="mt-3 inline-flex items-center gap-2 font-[family-name:var(--font-mono)] text-[12px] text-[var(--amber)]">
-                    <Padlock locked snap={lockSnap} />
-                    stack locked · scroll to Day 1 steps
-                  </p>
+                  <div className="mt-4 flex items-center justify-between">
+                    <p className="inline-flex items-center gap-2 font-[family-name:var(--font-mono)] text-xs font-bold text-[var(--amber)] bg-[var(--amber-soft)] px-3 py-1.5 rounded-md border border-[var(--amber)]/20">
+                      <Padlock locked snap={lockSnap} /> stack locked · proceed
+                      below
+                    </p>
+                  </div>
                 )}
               </div>
             </div>
           </div>
         </section>
 
-        {/* Build section after commit */}
+        {/* Milestone Tracker */}
         {isCommitted && (
           <section
             ref={buildRef}
             aria-labelledby="build"
-            className="sl-rise mt-8 scroll-mt-6 overflow-hidden rounded-xl border border-[var(--line-strong)] bg-[var(--panel)]"
+            className="sl-rise mt-8 scroll-mt-10 overflow-hidden rounded-2xl border border-[var(--line-strong)] bg-[var(--panel)] shadow-[0_32px_96px_rgba(0,0,0,0.5)]"
           >
-            <div className="flex items-center justify-between border-b border-[var(--line)] bg-[var(--panel-2)] px-5 py-3">
+            <div className="flex items-center justify-between border-b border-[var(--line)] bg-[var(--panel-2)] px-6 py-4">
               <div>
-                <p className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.16em] text-[var(--dim)] uppercase">
+                <p className="font-[family-name:var(--font-mono)] text-[10px] font-bold tracking-[0.2em] text-[var(--dim)] uppercase">
                   execute · day 1
                 </p>
                 <h2
                   id="build"
-                  className="text-lg font-bold tracking-tight"
+                  className="mt-1 text-xl font-extrabold tracking-tight text-white"
                   style={{ fontFamily: "var(--font-display), sans-serif" }}
                 >
                   Your three steps
                 </h2>
               </div>
               <div
-                className="font-[family-name:var(--font-mono)] text-sm text-[var(--green)]"
+                className="font-[family-name:var(--font-mono)] text-base font-bold text-[var(--green)] bg-[var(--green-soft)] px-3 py-1 rounded-md border border-[var(--green)]/20"
                 aria-live="polite"
               >
-                {checked.length}/{total}
+                {checked.length} / {total}
               </div>
             </div>
 
-            <div className="h-1 bg-[var(--line)]" aria-hidden="true">
+            <div className="h-1.5 bg-[var(--line)]" aria-hidden="true">
               <div
-                className="h-full bg-[var(--green)] motion-safe:transition-all motion-safe:duration-300"
+                className="h-full bg-[var(--green)] transition-all duration-500 ease-out shadow-[0_0_10px_rgba(57,217,138,0.5)]"
                 style={{ width: `${(checked.length / total) * 100}%` }}
               />
             </div>
@@ -574,11 +593,7 @@ export default function Home() {
                 return (
                   <li key={milestone} className="border-b border-[var(--line)]">
                     <label
-                      className={`flex cursor-pointer items-start gap-4 px-5 py-4 ${
-                        isChecked
-                          ? "bg-[var(--green-soft)]"
-                          : "hover:bg-white/[0.02]"
-                      }`}
+                      className={`flex cursor-pointer items-start gap-5 px-6 py-5 transition-colors ${isChecked ? "bg-[var(--green-soft)]" : "hover:bg-white/[0.02]"}`}
                     >
                       <input
                         type="checkbox"
@@ -588,20 +603,12 @@ export default function Home() {
                       />
                       <span
                         aria-hidden="true"
-                        className={`grid h-7 w-7 shrink-0 place-items-center rounded-md border font-[family-name:var(--font-mono)] text-[11px] font-semibold peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--green)] ${
-                          isChecked
-                            ? "border-[var(--green)] bg-[var(--green)] text-[#04140c]"
-                            : "border-[var(--line-strong)] text-[var(--muted)]"
-                        }`}
+                        className={`grid h-8 w-8 shrink-0 place-items-center rounded-lg border font-[family-name:var(--font-mono)] text-[12px] font-bold peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--green)] transition-all ${isChecked ? "border-[var(--green)] bg-[var(--green)] text-[#04140c] shadow-[0_0_10px_rgba(57,217,138,0.3)]" : "border-[var(--line-strong)] bg-black/20 text-[var(--muted)]"}`}
                       >
                         {isChecked ? "✓" : String(idx + 1).padStart(2, "0")}
                       </span>
                       <span
-                        className={`pt-0.5 text-[15px] leading-relaxed ${
-                          isChecked
-                            ? "text-[var(--muted)] line-through decoration-[var(--dim)]"
-                            : ""
-                        }`}
+                        className={`pt-1 text-base font-medium leading-relaxed transition-colors duration-300 ${isChecked ? "text-[var(--dim)] line-through decoration-[var(--dim)]" : "text-white"}`}
                       >
                         {milestone}
                       </span>
@@ -611,55 +618,56 @@ export default function Home() {
               })}
             </ol>
 
-            <div className="border-b border-[var(--line)] px-5 py-4">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="font-[family-name:var(--font-mono)] text-[11px] tracking-[0.14em] text-[var(--dim)] uppercase">
+            <div className="border-b border-[var(--line)] px-6 py-5 bg-black/10">
+              <div className="mb-3 flex items-center justify-between">
+                <span className="font-[family-name:var(--font-mono)] text-[11px] font-bold tracking-[0.2em] text-[var(--dim)] uppercase">
                   {commandLabel}
                 </span>
                 <button
                   type="button"
                   onClick={handleCopy}
-                  className="font-[family-name:var(--font-mono)] text-[11px] text-[var(--green)] hover:text-[var(--ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--green)] cursor-pointer"
+                  className="font-[family-name:var(--font-mono)] text-[11px] font-bold text-[var(--green)] hover:text-white focus:outline-none transition-colors cursor-pointer bg-[var(--green-soft)] px-3 py-1.5 rounded-md border border-[var(--green)]/20"
                 >
                   {copyLabel}
                 </button>
               </div>
-              <pre className="overflow-x-auto rounded-md border border-[var(--line)] bg-[var(--bg)] px-4 py-3 font-[family-name:var(--font-mono)] text-[13px] leading-relaxed text-[var(--green)]">
-                <span className="select-none text-[var(--dim)]">$ </span>
+              <pre className="overflow-x-auto rounded-lg border border-[var(--line-strong)] bg-black/40 px-5 py-4 font-[family-name:var(--font-mono)] text-sm leading-relaxed text-[var(--green)] shadow-inner">
+                <span className="select-none text-[var(--dim)] mr-2">❯</span>
                 {stack.command}
               </pre>
             </div>
 
-            <div className="px-5 py-5">
+            <div className={`px-6 py-8 ${isCelebrating ? "sl-celebrate" : ""}`}>
               <h3
-                className="text-base font-bold tracking-tight"
+                className="text-xl font-extrabold tracking-tight text-white"
                 style={{ fontFamily: "var(--font-display), sans-serif" }}
               >
                 Paste what you shipped
               </h3>
               {proofUrl ? (
-                <div className="mt-3 rounded-md border border-[var(--green)] bg-[var(--green-soft)] px-4 py-3">
-                  <p className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.16em] text-[var(--green)] uppercase">
-                    recorded
+                <div className="mt-4 rounded-xl border-2 border-[var(--green)] bg-[var(--green-soft)] px-5 py-4 shadow-[0_0_20px_rgba(57,217,138,0.15)]">
+                  <p className="font-[family-name:var(--font-mono)] text-[10px] font-bold tracking-[0.2em] text-[var(--green)] uppercase flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-[var(--green)] animate-pulse" />{" "}
+                    Ship Recorded
                   </p>
                   <a
                     href={proofUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-1 block break-all font-[family-name:var(--font-mono)] text-sm underline underline-offset-4"
+                    className="mt-2 block break-all font-[family-name:var(--font-mono)] text-base font-medium text-white hover:text-[var(--green)] underline underline-offset-4 decoration-[var(--green)]/50 transition-colors"
                   >
                     {proofUrl}
                   </a>
                 </div>
               ) : (
-                <form onSubmit={handleSubmitProof} noValidate className="mt-3">
+                <form onSubmit={handleSubmitProof} noValidate className="mt-4">
                   <label
                     htmlFor="proof"
-                    className="block text-sm text-[var(--muted)]"
+                    className="block text-sm font-medium text-[var(--muted)]"
                   >
                     {stack.proofHint}
                   </label>
-                  <div className="mt-2 flex gap-2">
+                  <div className="mt-3 flex flex-col sm:flex-row gap-3">
                     <input
                       id="proof"
                       type="url"
@@ -667,22 +675,20 @@ export default function Home() {
                       value={proofDraft}
                       onChange={(e) => setProofDraft(e.target.value)}
                       aria-invalid={proofError !== null}
-                      aria-describedby={proofError ? "proof-error" : undefined}
                       placeholder="https://"
-                      className="min-w-0 flex-1 rounded-md border border-[var(--line-strong)] bg-[var(--bg)] px-3 py-2.5 font-[family-name:var(--font-mono)] text-sm placeholder:text-[var(--dim)] focus:border-[var(--green)] focus:outline-none"
+                      className="min-w-0 flex-1 rounded-lg border border-[var(--line-strong)] bg-black/40 px-4 py-3 font-[family-name:var(--font-mono)] text-sm placeholder:text-[var(--dim)] focus:border-[var(--green)] focus:ring-1 focus:ring-[var(--green)] focus:outline-none transition-colors"
                     />
                     <button
                       type="submit"
-                      className="shrink-0 rounded-md bg-[var(--ink)] px-4 py-2.5 font-[family-name:var(--font-mono)] text-sm font-semibold text-[var(--bg)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--green)] cursor-pointer"
+                      className="shrink-0 rounded-lg bg-white px-6 py-3 font-[family-name:var(--font-mono)] text-sm font-bold text-black hover:bg-[var(--ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--green)] transition-colors cursor-pointer"
                     >
-                      submit
+                      Submit Proof
                     </button>
                   </div>
                   {proofError && (
                     <p
-                      id="proof-error"
                       role="alert"
-                      className="mt-2 font-[family-name:var(--font-mono)] text-sm text-[var(--danger)]"
+                      className="mt-3 font-[family-name:var(--font-mono)] text-sm font-bold text-[var(--danger)]"
                     >
                       {proofError}
                     </p>
@@ -690,11 +696,27 @@ export default function Home() {
                 </form>
               )}
             </div>
+
+            {/* DANGER ZONE - Friction added to unlocking */}
+            <div className="border-t border-[var(--danger-soft)] bg-black/30 px-6 py-4 flex justify-between items-center mt-4">
+              <span className="font-[family-name:var(--font-mono)] text-[10px] text-[var(--dim)] uppercase tracking-wider">
+                Abandon current stack?
+              </span>
+              <button
+                type="button"
+                onClick={handleChangeSelection}
+                className={`font-[family-name:var(--font-mono)] text-[11px] font-bold px-3 py-1.5 rounded transition-colors cursor-pointer ${unlockConfirm ? "bg-[var(--danger)] text-black" : "text-[var(--danger)] hover:bg-[var(--danger-soft)]"}`}
+              >
+                {unlockConfirm
+                  ? "Confirm Unlock & Wipe Data"
+                  : "Unlock / Change Stack"}
+              </button>
+            </div>
           </section>
         )}
       </main>
 
-      <footer className="relative z-10 mx-auto max-w-[1120px] px-6 pb-8 font-[family-name:var(--font-mono)] text-[10px] tracking-wide text-[var(--dim)]">
+      <footer className="relative z-10 mx-auto max-w-[1120px] px-6 pb-12 font-[family-name:var(--font-mono)] text-[11px] font-medium tracking-wide text-[var(--dim)] text-center">
         CS-PD Fall 2026 · Week 7 ship gate · events in
         03-build/analytics/event-schema.md
       </footer>
