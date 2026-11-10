@@ -19,8 +19,6 @@ Every real interview I personally took part in (4 total, 2 as primary asker):
 
 > "I don't have anyone to ask. My friends don't code." (log 03, [`01-discovery/interview-logs/03-selftaught-kutaisi.md`](../../01-discovery/interview-logs/03-selftaught-kutaisi.md))
 
-<!-- NOTE: I was the asker on logs 03 and 04, so both are quotes you heard yourself. Swap in log 04's "My biggest headache is clients changing their mind, not figuring out what to learn." if that one mattered more to you. -->
-
 **One moment I broke the Mom Test, and what I asked instead next time** (name the log):
 
 I did not break the Mom Test in the interviews I asked. In log 04 ([`01-discovery/interview-logs/04-builder-tbilisi.md`](../../01-discovery/interview-logs/04-builder-tbilisi.md)), which I asked, I stayed on past events, asking the builder to walk me through the first week of his salon project rather than pitching anything, and "deciding what to learn" never came up even when the topic was raised directly. The one risky moment came while I was logging log 06 ([`01-discovery/interview-logs/06-bootcamp-tbilisi.md`](../../01-discovery/interview-logs/06-bootcamp-tbilisi.md)): the grad said "Someone should just tell me what to build," and I flagged it as feature talk and kept it out of the evidence instead of counting it as support.
@@ -53,8 +51,6 @@ Each `DECISIONS.md` line you drove or supplied the evidence for. Copy the line e
 |---|---|
 | `Wk2 · Problem pick: Difficulty deciding where to start learning a new software project · runner-up: Duplicate work in a shared team project · evidence: 00-foundation/problem-pool.md (#7), 00-foundation/four-filters-scorecard.md · owner: IG` | Primary owner (`owner: IG`). Authored Problem #7 in [`00-foundation/problem-pool.md`](../../00-foundation/problem-pool.md) from a personally observed struggle (a friend who still had not started their first project after 4 days of switching tutorials), and supplied the Filter 2 reachability evidence (named ICP targets including my friend and Kutaisi junior students) that made this problem score 8/8, the top pick, in [`00-foundation/four-filters-scorecard.md`](../../00-foundation/four-filters-scorecard.md). |
 | `Wk3 · Prediction "fewer than 2 of 3 people describe losing days to deciding what to learn" verdict: weakened · evidence: 01-discovery/interview-logs/01-student-kutaisi.md, 01-discovery/interview-logs/05-gamer-kutaisi.md, 01-discovery/interview-logs/06-bootcamp-tbilisi.md · owner: TTC` | Supplied the evidence for 2 of the 3 cited logs by logging interview 01 (the 30-course Notion page, [`01-discovery/interview-logs/01-student-kutaisi.md`](../../01-discovery/interview-logs/01-student-kutaisi.md)) and interview 06 (the 9-column stack spreadsheet and three empty repos, [`01-discovery/interview-logs/06-bootcamp-tbilisi.md`](../../01-discovery/interview-logs/06-bootcamp-tbilisi.md)), whose surprises fed the "weakened" verdict recorded in [`01-discovery/problem-hypothesis.md`](../../01-discovery/problem-hypothesis.md). |
-
-<!-- NOTE: Line 1 is yours as owner (IG) and is the strongest claim. Line 2's owner is TTC (Tornike); I included it only because you supplied real evidence (logs 01 and 06) for it, which satisfies "the owner or evidence on it connects to you." Line 3 (owner TT, Tatia) does not clearly connect to you, so I left it out. Keep or drop Line 2 as you see fit, and double-check the wording of each line matches DECISIONS.md exactly. -->
 
 ---
 

@@ -1,6 +1,6 @@
-# Interview 01 · first-year student, side projects · Kutaisi
+# Interview 01 · first-year student, side projects · (Giorgi) · Kutaisi
 
-**Week:** 2 · **Asker:** TTC · **Logger:** IG · **Consent:** yes; notes only
+**Date:** 3 October 2026 · **Week:** 2 · **Asker:** TTC · **Logger:** IG · **Consent:** yes; notes only
 **Real or practice:** real 
 
 **Context:** First-year student, wants to build a budgeting app, learns at night.

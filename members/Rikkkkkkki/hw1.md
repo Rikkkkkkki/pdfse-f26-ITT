@@ -1,6 +1,5 @@
 # Homework 1 · Tatia Tkeshelashvili (@Rikkkkkkki) · Team ITT
 
-**Save this file as:** `members/Rikkkkkkki/hw1.md`
 
 ## 1. My interview log
 

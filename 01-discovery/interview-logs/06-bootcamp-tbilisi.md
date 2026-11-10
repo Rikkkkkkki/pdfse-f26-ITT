@@ -1,6 +1,6 @@
-# Interview 06 · bootcamp graduate, portfolio project · Tbilisi
+# Interview 06 · bootcamp graduate, portfolio project · (Mariam) · Tbilisi
 
-**Week:** 2 · **Asker:** TT · **Logger:** IG · **Consent:** yes; notes only
+**Date:** 16 October 2026 · **Week:** 4 · **Asker:** TT · **Logger:** IG · **Consent:** yes; notes only
 **Real or practice:** real
 
 **Context:** 23, finished a 3-month web bootcamp in the summer, now looking for a first junior job. Needs a portfolio project. Reached through a friend's cousin.

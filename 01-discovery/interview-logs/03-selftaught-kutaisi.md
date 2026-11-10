@@ -1,6 +1,6 @@
-# Interview 03 · self-taught learner, YouTube · Kutaisi
+# Interview 03 · self-taught learner, YouTube · (Nick) · Kutaisi
 
-**Week:** 2 · **Asker:** IG · **Logger:** TT · **Consent:** yes; notes only
+**Date:** 5 October 2026 · **Week:** 2 · **Asker:** IG · **Logger:** TT · **Consent:** yes; notes only
 **Real or practice:** real
 
 **Context:** Learning Python alone for six months, works on a Telegram bot.

@@ -1,6 +1,6 @@
-# Interview 05 · first-year student, dropped game project · Kutaisi
+# Interview 05 · first-year student, dropped game project · (Luka) · Kutaisi
 
-**Week:** 2 · **Asker:** TTC · **Logger:** TT · **Consent:** yes; notes only
+**Date:** 14 October 2026 · **Week:** 3 · **Asker:** TTC · **Logger:** TT · **Consent:** yes; notes only
 **Real or practice:** real
 
 **Context:** 19, first-year, wanted to make a 2D game. Started in September, stopped after 2 weeks. Met at a student club, not in our course.

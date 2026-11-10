@@ -1,6 +1,6 @@
-# Interview 02 · friend of a friend, hobby app idea · Kutaisi
+# Interview 02 · friend of a friend, hobby app idea · (Levan) · Kutaisi
 
-**Week:** 2 · **Asker:** TT · **Logger:** TTC · **Consent:** yes; recording
+**Date:** 4 October 2026 · **Week:** 2 · **Asker:** TT · **Logger:** TTC · **Consent:** yes; notes only
 **Real or practice:** real
 
 **Context:** Works in marketing, wants to build a small app as a hobby.

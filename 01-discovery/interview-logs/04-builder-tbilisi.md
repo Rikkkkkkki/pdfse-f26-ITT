@@ -1,6 +1,6 @@
-# Interview 04 · third-year student, side projects · Tbilisi
+# Interview 04 · third-year student, side projects · (Davit) · Tbilisi
 
-**Week:** 2 · **Asker:** IG · **Logger:** TTC · **Consent:** yes; notes only
+**Date:** 12 October 2026 · **Week:** 3 · **Asker:** IG · **Logger:** TTC · **Consent:** yes; notes only
 **Real or practice:** real
 
 **Context:** 21, not a CS major, self-taught web developer for 2 years, has shipped a small booking site for a relative's salon. Reached through a friend of Tatia's.
