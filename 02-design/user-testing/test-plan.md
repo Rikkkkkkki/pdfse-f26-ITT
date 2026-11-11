@@ -1,6 +1,6 @@
 # Prototype Test Plan
 
-**Prototype v1 link:** [StackLock Prototype on Vercel](../../README.md) (`app/`)
+**Prototype v1 link:** [StackLock Prototype on Vercel](https://pdfse-f26-itt.vercel.app)
 
 **Riskiest assumption under test:** A stuck beginner will commit to a single opinionated tech stack and launch Day 1 setup commands, rather than continuing to research and compare tutorials.
 
