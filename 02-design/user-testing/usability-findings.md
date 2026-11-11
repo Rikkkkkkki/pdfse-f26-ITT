@@ -19,7 +19,7 @@ One block per session, written within an hour of running it, in the order you ra
 
 ---
 
-## Session 2 · Sandro-T · self-taught web learner · his laptop · ran TT, logged IG
+## Session 2 · Sandro-K · 2nd-year student · his phone · ran TT, logged IG
 
 **Task read:** "You have a personal project idea that you want to start building this evening. Open this link and show me what you would do to get started."
 
@@ -36,7 +36,7 @@ One block per session, written within an hour of running it, in the order you ra
 
 ---
 
-## Session 3 · Luka-K · 1st-year student gamer · his phone · ran TT, logged TTC
+## Session 3 · Konstantin-T · career changer / mathematician · his laptop · ran TT, logged TTC
 
 **Task read:** "You have a personal project idea that you want to start building this evening. Open this link and show me what you would do to get started."
 

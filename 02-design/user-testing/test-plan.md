@@ -27,10 +27,10 @@ All five from our ICP (`00-foundation/icp.md`). None in this course. Code names 
 | # | Code name | Role (as in your ICP) | Why they fit the ICP | Session runner (asks) | Session logger (writes) | Target day | Status (messaged / booked / done) |
 |---|---|---|---|---|---|---|---|
 | 1 | Giorgi-K | 1st-year CS student, Kutaisi | Log 01. Stuck 5 weeks in Notion tutorial hoarding | TT | TTC | Week 7, Tue | booked |
-| 2 | Sandro-T | Self-taught web learner, Tbilisi | Log 06 intro. Stalled on portfolio repo | TT | IG | Week 7, Wed | booked |
-| 3 | Luka-K | 1st-year student gamer, Kutaisi | Log 05. Tool-hopped Unity to Godot | TT | TTC | Week 7, Wed | booked |
-| 4 | Nika-M | 2nd-year student | Fits ICP; wants to build Telegram bot | TT | IG | Week 7, Thu | messaged |
-| 5 | Mariam-T | Bootcamp graduate | Log 06. 9-column comparison spreadsheet | TT | TTC | Week 7, Thu | messaged |
+| 2 | Sandro-K | 2nd-year student, Kutaisi | Log 08. Built weather app, stalled on 25-item list | TT | IG | Week 7, Wed | booked |
+| 3 | Konstantin-T | Career changer / mathematician, Tbilisi | Log 07. 1 hr/day, rewrites weekly schedule | TT | TTC | Week 7, Wed | booked |
+| 4 | Luka-K | 1st-year student gamer, Kutaisi | Log 05. Tool-hopped Unity to Godot | TT | IG | Week 7, Thu | messaged |
+| 5 | Elena-M | Colleague learning SQL, Tbilisi | New; introduced by Konstantin in Log 07 | TT | TTC | Week 7, Thu | messaged |
 
 ## Session protocol (same every time)
 
