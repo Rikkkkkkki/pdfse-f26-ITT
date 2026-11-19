@@ -22,23 +22,23 @@ The smallest complete user journey that tests whether the product creates value 
 
 ## Cut list
 
-| Feature | Reason (cite the log, session, or hypothesis) | Comes back when |
-|---|---|---|
-| Course curation feed / tutorial links | Ruled out by log 01: hoarding 30 course playlists in Notion created an illusion of progress without code. Adding tutorials reinforces the problem. | Never (anti-pattern) |
-| Multi-stack comparison table | Ruled out by log 06: creating 9-column comparison spreadsheets stalled development for weeks across three empty repositories. | Never (anti-pattern) |
-| Engine/framework switcher | Ruled out by log 05: tool-hopping between Unity and Godot caused 3 abandoned projects and weeks lost. | Milestone 3 (if advanced users require custom overrides) |
-| User registration / login | Unnecessary friction on Day 1; Giorgi needs to lock his stack immediately without creating credentials. | Sprint 2 (when persisting saved progress across devices) |
-| Cloud deployment automation | Over-engineering for Day 1; running `localhost` within 30 minutes proves initial commitment. | Sprint 2 |
+| Feature                               | Reason (cite the log, session, or hypothesis)                                                                                                      | Comes back when                                          |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| Course curation feed / tutorial links | Ruled out by log 01: hoarding 30 course playlists in Notion created an illusion of progress without code. Adding tutorials reinforces the problem. | Never (anti-pattern)                                     |
+| Multi-stack comparison table          | Ruled out by log 06: creating 9-column comparison spreadsheets stalled development for weeks across three empty repositories.                      | Never (anti-pattern)                                     |
+| Engine/framework switcher             | Ruled out by log 05: tool-hopping between Unity and Godot caused 3 abandoned projects and weeks lost.                                              | Milestone 3 (if advanced users require custom overrides) |
+| User registration / login             | Unnecessary friction on Day 1; Giorgi needs to lock his stack immediately without creating credentials.                                            | Sprint 2 (when persisting saved progress across devices) |
+| Cloud deployment automation           | Over-engineering for Day 1; running `localhost` within 30 minutes proves initial commitment.                                                       | Sprint 2                                                 |
 
 ## Step to event
 
-| Step | Event (actor_verb_object) | In the schema? |
-|---|---|---|
-| 1 | `learner_opens_app` | yes |
-| 2 | `learner_selects_category` | yes |
-| 3 | (view screen state) | yes |
-| 4 | `user_commits_stack` ★ | yes (North Star) |
-| 5 | `starter_command_copied`, `milestone_step_toggled` | yes |
+| Step | Event (actor_verb_object)                          | In the schema?   |
+| ---- | -------------------------------------------------- | ---------------- |
+| 1    | `learner_opens_app`                                | yes              |
+| 2    | `learner_selects_category`                         | yes              |
+| 3    | (view screen state)                                | yes              |
+| 4    | `user_commits_stack` ★                             | yes (North Star) |
+| 5    | `starter_command_copied`, `milestone_step_toggled` | yes              |
 
 **North star step:** Step 4 (`user_commits_stack`).
 
