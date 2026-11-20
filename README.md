@@ -7,7 +7,7 @@
 |---|---|
 | Prototype | [StackLock on Vercel](https://pdfse-f26-itt.vercel.app) |
 | Live product | [StackLock Live](https://pdfse-f26-itt.vercel.app) |
-| Analytics dashboard (PostHog) | [PostHog EU](https://eu.posthog.com) |
+| Analytics dashboard (PostHog) | [PostHog Dashboard](https://eu.posthog.com/shared/wqxoS6c1XDrbTAFXhmvvYB5lAKvEVA) |
 | 12-month model | coming Week 12 |
 | Pitch deck | coming Week 13 |
 | One-pager | coming Week 15 |
