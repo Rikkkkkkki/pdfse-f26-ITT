@@ -81,34 +81,53 @@ Wk7 · Prototype test: 1 pass, 2 fails across initial 3 sessions; rule holds to 
 
 ---
 
-## Session 4 · Luka-K · 1st-year student / gamer · his phone · ran TT, logged IG
+## Session 4 · Elena-M · colleague learning SQL / career changer · her phone · ran TT, logged TTC
 
 **Task read:** "You have a personal project idea that you want to start building this evening. Open this link and show me what you would do to get started."
 
 | Time | What they did | What they said (verbatim) | Note |
 |---|---|---|---|
 | 0:00 | Task read | | |
-| | | | |
+| 0:10 | Scrolled once, tapped the idea input box | | Found the input box on the first screen |
+| 0:25 | Typed a one-line idea | | |
+| 0:40 | Hesitated about 15 s on the stack screen, looked up at runner | | |
+| 0:41 | Runner used the permitted line: *"Whatever you would normally do if I weren't sitting here."* | | Protocol followed exactly |
+| 0:50 | Locked the stack | "I'll just go with the first one." | Unprompted |
+| 0:58 | Copied the starter command | | |
 
-**Time to first tap/click:**  
-**Time to the one action, or did not complete:**  
-**Result vs rule:** [PASS / FAIL, because ...]  
-**Surprise:**  
-**Answer to "what were you expecting to happen?":**  
+**Time to first tap/click:** 0:10  
+**Time to the one action:** 0:58  
+**Result vs rule:** PASS, narrowly. Under 60 s, but the hesitation at 0:40 is worth a note.  
+**Surprise:** ★ Passed, but picked the first stack without comparing. Does the prototype make choosing too easy, or is that the point?  
+**Answer to "what were you expecting to happen?":** "A box to type my idea in, and it was there."
 
 ---
 
-## Session 5 · Elena-M · colleague learning SQL · her laptop · ran TT, logged TTC
+## Session 5 · Luka-K · 2nd-year non-CS student gamer · his laptop · ran TT, logged IG
 
 **Task read:** "You have a personal project idea that you want to start building this evening. Open this link and show me what you would do to get started."
 
 | Time | What they did | What they said (verbatim) | Note |
 |---|---|---|---|
 | 0:00 | Task read | | |
-| | | | |
+| 0:08 | Clicked "Start" | | |
+| 0:20 | Picked a tool without stopping | | |
+| 0:35 | Copied the starter command, opened a terminal on their laptop | "I'll try this." | Went beyond the prototype on their own |
 
-**Time to first tap/click:**  
-**Time to the one action, or did not complete:**  
-**Result vs rule:** [PASS / FAIL, because ...]  
-**Surprise:**  
-**Answer to "what were you expecting to happen?":**  
+**Time to first tap/click:** 0:08  
+**Time to the one action:** 0:35  
+**Result vs rule:** PASS. Under 60 s, no runner hints needed, copied starter command.  
+**Surprise:** ★ Opened a terminal immediately. Is the starter command what they actually wanted from the tool?  
+**Answer to "what were you expecting to happen?":** "Something like this, yeah."
+
+---
+
+## After 5 sessions: apply the decision rule
+
+**Sessions run:** 5 · **Pass:** 3 (Sessions 1, 4, 5) · **Fail:** 2 (Session 2 mobile layout fail, Session 3 contaminated fail)  
+**Rule says:** Rule requires 3 or more fails out of 5 to change course. With 3 passes and 2 fails, the **core assumption holds** (a stuck beginner will commit to a single opinionated tech stack and launch Day 1 setup commands when guided by a clear input flow). Proceed with full build phase.
+
+**DECISIONS.md line added:**
+```markdown
+Wk7 · Usability testing complete: 3 passes, 2 fails across 5 sessions; core assumption holds; mobile input box and strict silence protocol verified · evidence: 02-design/user-testing/usability-findings.md (sessions 1 to 5) · owner: TT
+```  

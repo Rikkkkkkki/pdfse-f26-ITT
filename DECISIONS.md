@@ -5,3 +5,4 @@ Wk6 · MVP boundary: 5-step journey (category selection to Day 1 milestone execu
 Wk6 · Prototype track: the first deployed screen of the journey is the prototype; frozen test from 02-design/user-testing/test-plan.md runs on it, 3 sessions before the Week 7 lab · evidence: 03-build/sprints/sprint-1.md S1 · owner: TTC
 Wk7 · Gate passed: live at https://pdfse-f26-itt.vercel.app, north star event firing from production, PostHog 3 = walk 3 · evidence: README links, 03-build/analytics/event-schema.md · owner: TTC
 Wk7 · Prototype test: 1 pass, 2 fails across initial 3 sessions; rule holds to finish sessions 4 & 5; mobile layout fix prioritized · evidence: 02-design/user-testing/usability-findings.md (sessions 1 to 3) · owner: TT
+Wk7 · Usability testing complete: 3 passes, 2 fails across 5 sessions; core assumption holds; mobile input box and strict silence protocol verified · evidence: 02-design/user-testing/usability-findings.md (sessions 1 to 5) · owner: TT
