@@ -12,8 +12,8 @@
 | Mariam, bootcamp graduate (Tbilisi) | Seeking junior role, 9-col comparison sheet, 3 empty repos | Teams via friend's cousin | Wk4, Tatia | Yes | 16 Oct 2026, 20:00, TT, IG | `06-bootcamp-tbilisi.md` |
 | Konstantin, career changer / mathematician (Tbilisi) | 1 hour/day, loses half on what to learn, rewritten planner | Messenger via friend's colleague | Wk6, Tatia | Yes | 10 Nov 2026, 20:00, TT, TTC | `07-careerchanger-tbilisi.md` |
 | Sandro, 2nd-year student (Kutaisi) | Built weather app, stalled 1 month with 25-item list | In person at student club | Wk6, Tatia | Yes | 11 Nov 2026, 16:30, TT, IG | `08-student-kutaisi.md` |
-| Colleague learning SQL (Tbilisi) | Introduced by Konstantin (Log 07); needs structured starter | Messenger via Konstantin | Wk6, Tatia | Booked | Target: Wk7, TT, TTC | Pending (09) |
-| Sandro's friend (Kutaisi) | Introduced by Sandro (Log 08); stalled on where to start | In person at student club | Wk6, Tatia | Booked | Target: Wk7, TT, IG | Pending (10) |
+| Ana (Designer-1), design student (Tbilisi) | Portfolio site stalled 2 months, 41 saved versions, fear of shipping | Messenger via friend's sister | Wk6, Tatia | Yes | 18 Nov 2026, 18:30, TT, IG | `09-designer-tbilisi.md` |
+| Nika (Student-5), 3rd-year student (Kutaisi) | Habit tracker app, 40-card Trello board, planning paralysis | In person at student club (via Sandro) | Wk6, Tatia | Yes | 19 Nov 2026, 17:00, TTC, TT | `10-student-kutaisi.md` |
 
 ## The message (adapt it, never paste it)
 >Hi *name*, I'm *your name*, a student at KIU. I'm doing a university project about how people spend their time on their own projects and ideas outside of classes or work, what it's actually like day to day, the good and the annoying parts. Could I ask you about it for 20 minutes this week? *day* or *day*, whichever suits you.
