@@ -6,6 +6,8 @@
 
 **How the north star is computed from events:** count of unique `user_commits_stack` events fired by learners who selected a project category and locked a non-negotiable tech stack.
 
+**Rejected as north star:** page views and category clicks. They count passive browsing, which our interviewees already did for weeks without writing code (logs 01 and 05). Locking a stack is the first act of deciding, so it is the event we count.
+
 ## Events
 
 | Step | Event (actor_verb_object) | Fired by | Properties | Owner | Live |

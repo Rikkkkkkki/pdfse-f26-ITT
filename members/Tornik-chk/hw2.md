@@ -20,7 +20,7 @@ What I personally built, wired, deployed, tested, or reviewed since Lab 6.
 ## 2. Pattern journal, Weeks 5 to 7
 
 ### Week 5 · One metric that matters
-In the event schema debate I pushed back on page views and category clicks as our metric. In interview log 01, Giorgi spent weeks browsing tutorials without committing to code, so browsing is passive. I argued our North Star must be `user_commits_stack`, because locking the decision is the move from tutorial hoarding to building. Beyond my lane: I drafted the `project_category` and `stack_name` properties to see which domain causes the most hesitation (`03-build/analytics/event-schema.md`). Hack: fired dummy events from the browser console to test ad-blocker capture before the app existed.
+In the event schema debate I pushed back on page views and category clicks as our metric (Wk5 DECISIONS line). In interview log 01, Giorgi spent weeks browsing tutorials without committing to code, so browsing is passive. I argued our North Star must be `user_commits_stack`, because locking the decision is the move from tutorial hoarding to building. Beyond my lane: I drafted the `project_category` and `stack_name` properties to see which domain causes the most hesitation (`03-build/analytics/event-schema.md`). Hack: fired dummy events from the browser console to test ad-blocker capture before the app existed.
 
 ### Week 6 · The smallest complete journey
 When planning Sprint 1 we were tempted by a tutorial search and a login. Following our discovery logs, I insisted on a single screen: category selector, opinionated stack card, commit button, and 3 Day 1 milestones (`03-build/mvp-boundary.md`, Wk6 DECISIONS line). Beyond my lane: I worked with Tatia so the acceptance criteria matched the frozen test plan. Hack: I used `localStorage` to keep locked state across refreshes before server persistence existed.
@@ -29,6 +29,10 @@ When planning Sprint 1 we were tempted by a tutorial search and a login. Followi
 Shipping to Vercel and watching events in PostHog replaced assumptions with real behavior. Walking the live URL on a phone over mobile data showed the product under real constraints, and it confirmed the `/ingest` proxy stopped event loss (gate reconcile in `event-schema.md`, Wk7 DECISIONS line). Beyond my lane: I co-ran the mobile walk with Tatia and checked the PostHog live stream. Hack: I ran the walk over a cellular hotspot with Wi-Fi off to rule out local caching.
 
 ## 3. My DECISIONS.md lines
+
+> `Wk5 · North star: user_commits_stack (stack decisions locked per active learner); rejected page views and category clicks (passive browsing, the behavior our users already do for weeks without starting) · evidence: 03-build/analytics/event-schema.md, 01-discovery/interview-logs/01-student-kutaisi.md, 05-gamer-kutaisi.md · owner: TTC`
+
+I argued for the locked-stack event over passive browsing metrics; the line and the rejected options are recorded in the schema file.
 
 > `Wk6 · MVP boundary: 5-step journey (category selection to Day 1 milestone execution); cut tutorial library, stack comparison matrix, and user authentication · evidence: 03-build/mvp-boundary.md, 01-discovery/interview-logs/01-student-kutaisi.md, 05-gamer-kutaisi.md, 06-bootcamp-tbilisi.md · owner: TTC`
 
