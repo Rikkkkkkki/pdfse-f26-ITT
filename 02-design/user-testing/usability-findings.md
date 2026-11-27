@@ -62,6 +62,7 @@ One block per session, written within an hour of running it, in the order you ra
 **Result vs rule:** FAIL / CONTAMINATED. Took >60 s, asked runner which stack to pick at 1:30, and runner gave advice instead of silence. Counted as partial evidence only.  
 **Surprise:** Expected to have to compare stacks manually ("I thought I'd have to compare them myself").  
 **Answer to "what were you expecting to happen?":** "I thought I'd have to compare them myself."
+**Logger's note (IG):** The runner's hint at 1:31 is why I marked this CONTAMINATED instead of dropping it, and it is what pushed us to the strict silence protocol and single permitted line before sessions 4 and 5. Sandro-K is also my field-week follow-up (`03-build/sprints/sprint-2.md`), so his "compare them myself" expectation is what I will pre-empt when I send him the link.
 
 ---
 
@@ -119,6 +120,7 @@ Wk7 · Prototype test: 1 pass, 2 fails across initial 3 sessions; rule holds to 
 **Result vs rule:** PASS. Under 60 s, no runner hints needed, copied starter command.  
 **Surprise:** ★ Opened a terminal immediately. Is the starter command what they actually wanted from the tool?  
 **Answer to "what were you expecting to happen?":** "Something like this, yeah."
+**Logger's note (IG):** I logged the 0:35 terminal moment carefully because it goes beyond the prototype: Luka-K copied the starter command and opened a real terminal unprompted, which is exactly the `starter_command_copied` engagement event I own in `03-build/analytics/event-schema.md`. Flagging it as the signal to watch on the dashboard, not just a pass.
 
 ---
 
