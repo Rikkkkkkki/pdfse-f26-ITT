@@ -12,7 +12,7 @@ The StackLock single-screen web app runs live on Vercel at a public HTTPS URL, v
 
 | Initials | Teammate | Hours free | When, specifically |
 |---|---|---|---|
-| TTC | Tornike Chkoidze | 10 | Tuesday evening, Thursday evening, Saturday standup |
+| TTC | Tornike Tchkoidze | 10 | Tuesday evening, Thursday evening, Saturday standup |
 | TT | Tatia Tkeshelashvili | 8 | Wednesday afternoon, Friday evening, Saturday standup |
 | IG | Irakli Giguashvili | 8 | Wednesday evening, Thursday afternoon, Saturday standup |
 | **Total** | | **26** | |

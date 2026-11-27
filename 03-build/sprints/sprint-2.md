@@ -32,7 +32,7 @@ Our definition of done: The StackLock single-screen web app runs live on Vercel 
 
 | Initials | Teammate | Hours free | When, specifically |
 |---|---|---|---|
-| TTC | Tornike Chkoidze | 10 | Friday evening, Sunday morning, Tuesday standup |
+| TTC | Tornike Tchkoidze | 10 | Friday evening, Sunday morning, Tuesday standup |
 | TT | Tatia Tkeshelashvili | 8 | Saturday afternoon, Monday evening, Tuesday standup |
 | IG | Irakli Giguashvili | 8 | Friday afternoon, Sunday afternoon, Tuesday standup |
 | **Total** | | **26** | |
