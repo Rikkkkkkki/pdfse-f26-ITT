@@ -11,7 +11,7 @@ Our definition of done: The StackLock single-screen web app runs live on Vercel 
 | Story | Owner | Done by our definition? | If not: which clause is missing, and what happened |
 |---|---|---|---|
 | S1 North Star Commitment & Lock Screen | TTC | Yes | Selected category updates stack card, lock button disables selector and commits state. Walked by TT on phone. |
-| S2 Day 1 Milestone Checklist & Command Copy | TTC | Yes | Clipboard command copy and 3 interactive checklist steps toggle cleanly. Walked by IG. |
+| S2 Day 1 Milestone Checklist & Command Copy | TTC | Yes | Clipboard command copy and 3 interactive checklist steps toggle cleanly. Walked by IG on desktop (Chrome) and phone (mobile Safari): "Copy Command" showed "✓ Copied!", the pasted text was the exact runnable command, and all 3 Day 1 checkboxes toggled and fired `milestone_step_toggled`. |
 | S3 Deploy to Vercel and Instrument Analytics | TTC | Yes | Deployed to https://pdfse-f26-itt.vercel.app with PostHog reverse-proxied through `/ingest`. |
 | S4 Run User Testing Sessions | TT | Partly | Frozen test plan structured; 3 field sessions scheduled with real ICP learners for field week. |
 | S5 Submission Verification and Tagging | IG | Yes | Verified all Lab 6 artifacts on `main` (problem statement, interview logs, event schema, MVP boundary, sprint-1), commit history traces to owner accounts, and the `m1-discovery` milestone tag is present. |
