@@ -11,10 +11,10 @@ Our definition of done: The StackLock single-screen web app runs live on Vercel 
 | Story | Owner | Done by our definition? | If not: which clause is missing, and what happened |
 |---|---|---|---|
 | S1 North Star Commitment & Lock Screen | TTC | Yes | Selected category updates stack card, lock button disables selector and commits state. Walked by TT on phone. |
-| S2 Day 1 Milestone Checklist & Command Copy | TTC | Yes | Clipboard command copy and 3 interactive checklist steps toggle cleanly. Walked by IG. |
+| S2 Day 1 Milestone Checklist & Command Copy | TTC | Yes | Clipboard command copy and 3 interactive checklist steps toggle cleanly. Walked by IG on desktop (Chrome) and phone (mobile Safari): "Copy Command" showed "✓ Copied!", the pasted text was the exact runnable command, and all 3 Day 1 checkboxes toggled and fired `milestone_step_toggled`. |
 | S3 Deploy to Vercel and Instrument Analytics | TTC | Yes | Deployed to https://pdfse-f26-itt.vercel.app with PostHog reverse-proxied through `/ingest`. |
 | S4 Run User Testing Sessions | TT | Partly | Frozen test plan structured; 3 field sessions scheduled with real ICP learners for field week. |
-| S5 Submission Verification and Tagging | IG | Yes | Verified Lab 6 artifacts on `main`. |
+| S5 Submission Verification and Tagging | IG | Yes | Verified all Lab 6 artifacts on `main` (problem statement, interview logs, event schema, MVP boundary, sprint-1), commit history traces to owner accounts, and the `m1-discovery` milestone tag is present. |
 
 **Slip rule:** Did not fire. S1, S2, and S3 all landed and were verified live in production on schedule.
 
@@ -51,6 +51,14 @@ Our definition of done: The StackLock single-screen web app runs live on Vercel 
 
 ### S8 · PostHog 3-Tile Dashboard & Filter Verification · owner IG · reviewer TTC · 3 h
 **As** Delivery lead, **I** maintain the public 3-tile dashboard (Trends, Funnel, Retention) with internal team filters enabled **so that** the course evaluators and team can inspect live traffic without login.
+
+**Dashboard (owner IG):** public, no login, linked in the README: https://eu.posthog.com/shared/wqxoS6c1XDrbTAFXhmvvYB5lAKvEVA
+
+- **Tile 1 · Trends:** total count of the north star `user_commits_stack` across the field week, read day by day against the Lab 8 prediction of 12 locked stacks from real learners.
+- **Tile 2 · Funnel:** `learner_opens_app` ➔ `learner_selects_category` ➔ `user_commits_stack`, so the drop-off between opening, selecting a category, and committing shows in one view.
+- **Tile 3 · Retention:** weekly return of learners who fired `user_commits_stack`, so a one-off commit is told apart from a learner who comes back to the Day 1 checklist.
+
+**Internal filter checked:** the shared dashboard applies the internal filter from `03-build/analytics/event-schema.md` (`Host does not contain localhost`, team/test distinct IDs excluded). I verified it by toggling the filter off and on: with it off our own test commits appear and inflate the count; with it on they drop out and the Trends total matches the Gate reconcile count of 3 in `event-schema.md`. I also opened the shared link in a logged-out browser to confirm an outside evaluator sees the same filtered numbers.
 
 ### S9 · Mid-Week Look & Funnel Audit · owner TTC · reviewer TT · 2 h
 **As** Build lead, **I** inspect PostHog metrics midway through the week to check conversion rates from `learner_opens_app` to `user_commits_stack` and identify drop-off bottlenecks.
