@@ -52,6 +52,14 @@ Our definition of done: The StackLock single-screen web app runs live on Vercel 
 ### S8 · PostHog 3-Tile Dashboard & Filter Verification · owner IG · reviewer TTC · 3 h
 **As** Delivery lead, **I** maintain the public 3-tile dashboard (Trends, Funnel, Retention) with internal team filters enabled **so that** the course evaluators and team can inspect live traffic without login.
 
+**Dashboard (owner IG):** public, no login, linked in the README: https://eu.posthog.com/shared/wqxoS6c1XDrbTAFXhmvvYB5lAKvEVA
+
+- **Tile 1 · Trends:** total count of the north star `user_commits_stack` across the field week, read day by day against the Lab 8 prediction of 12 locked stacks from real learners.
+- **Tile 2 · Funnel:** `learner_opens_app` ➔ `learner_selects_category` ➔ `user_commits_stack`, so the drop-off between opening, selecting a category, and committing shows in one view.
+- **Tile 3 · Retention:** weekly return of learners who fired `user_commits_stack`, so a one-off commit is told apart from a learner who comes back to the Day 1 checklist.
+
+**Internal filter checked:** the shared dashboard applies the internal filter from `03-build/analytics/event-schema.md` (`Host does not contain localhost`, team/test distinct IDs excluded). I verified it by toggling the filter off and on: with it off our own test commits appear and inflate the count; with it on they drop out and the Trends total matches the Gate reconcile count of 3 in `event-schema.md`. I also opened the shared link in a logged-out browser to confirm an outside evaluator sees the same filtered numbers.
+
 ### S9 · Mid-Week Look & Funnel Audit · owner TTC · reviewer TT · 2 h
 **As** Build lead, **I** inspect PostHog metrics midway through the week to check conversion rates from `learner_opens_app` to `user_commits_stack` and identify drop-off bottlenecks.
 
