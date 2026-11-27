@@ -14,7 +14,7 @@ Our definition of done: The StackLock single-screen web app runs live on Vercel 
 | S2 Day 1 Milestone Checklist & Command Copy | TTC | Yes | Clipboard command copy and 3 interactive checklist steps toggle cleanly. Walked by IG. |
 | S3 Deploy to Vercel and Instrument Analytics | TTC | Yes | Deployed to https://pdfse-f26-itt.vercel.app with PostHog reverse-proxied through `/ingest`. |
 | S4 Run User Testing Sessions | TT | Partly | Frozen test plan structured; 3 field sessions scheduled with real ICP learners for field week. |
-| S5 Submission Verification and Tagging | IG | Yes | Verified Lab 6 artifacts on `main`. |
+| S5 Submission Verification and Tagging | IG | Yes | Verified all Lab 6 artifacts on `main` (problem statement, interview logs, event schema, MVP boundary, sprint-1), commit history traces to owner accounts, and the `m1-discovery` milestone tag is present. |
 
 **Slip rule:** Did not fire. S1, S2, and S3 all landed and were verified live in production on schedule.
 
